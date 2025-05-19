@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -167,7 +166,7 @@ const Contact = () => {
                     <h3 className="text-2xl font-bold mb-4">Other Ways to Connect</h3>
                     <div className="space-y-4">
                       <div className="flex items-center">
-                        <MessageCircle className="mr-3" />
+                        <MessageSquare className="mr-3" />
                         <div>
                           <h4 className="font-semibold">Chat with AI</h4>
                           <p className="text-sm opacity-85">Use our rickshaw-bot chat widget</p>

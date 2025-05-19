@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -9,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { useColorShift } from '@/hooks/useColorShift';
 import { useUser } from '@/contexts/UserContext';
 import { useToast } from '@/components/ui/use-toast';
-import { Robot, Code, Database, Star } from 'lucide-react';
+import { Bot, Code, Database, Star } from 'lucide-react';
 
 const Services = () => {
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
@@ -100,7 +99,7 @@ const Services = () => {
               <div className="bg-white rounded-xl shadow p-6 hover:shadow-xl transition-shadow animate-fade-in-up" style={{ animationDelay: '100ms' }}>
                 <div className="text-center mb-4">
                   <div className="inline-block p-3 rounded-full bg-blue-50 mb-3">
-                    <Robot className="w-8 h-8 text-blue-500" />
+                    <Bot className="w-8 h-8 text-blue-500" />
                   </div>
                   <h3 className="text-xl font-bold">AI Processing</h3>
                 </div>
