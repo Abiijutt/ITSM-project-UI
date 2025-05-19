@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useColorShift } from '@/hooks/useColorShift';
+import UserAvatar from './UserAvatar';
 
 const Header: React.FC = () => {
   const accentColor = useColorShift();
@@ -42,12 +43,7 @@ const Header: React.FC = () => {
           <a href="#how-it-works" className="font-medium hover:text-aiwala-accent transition-colors">How it Works</a>
         </nav>
         
-        <button 
-          className="btn-aiwala"
-          style={{ backgroundColor: accentColor }}
-        >
-          Get Started
-        </button>
+        <UserAvatar />
       </div>
     </header>
   );
