@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,7 +62,13 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// AI WALA custom colors
+				aiwala: {
+					accent: '#0008A0', // Electric ultramarine
+					black: '#000000', // Pure black
+					gray: '#E5E5E4', // Soft gray
+				},
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -84,11 +91,75 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				// AI WALA custom animations
+				'color-shift': {
+					'0%, 100%': { 
+						filter: 'hue-rotate(0deg)' 
+					},
+					'50%': { 
+						filter: 'hue-rotate(15deg)' 
+					}
+				},
+				'fade-in-up': {
+					'0%': {
+						opacity: '0',
+						transform: 'translateY(20px)'
+					},
+					'100%': {
+						opacity: '1',
+						transform: 'translateY(0)'
+					}
+				},
+				'bounce-in': {
+					'0%': {
+						transform: 'scale(0)',
+						opacity: '0'
+					},
+					'60%': {
+						transform: 'scale(1.1)',
+						opacity: '1'
+					},
+					'100%': {
+						transform: 'scale(1)',
+						opacity: '1'
+					}
+				},
+				'rotate-slow': {
+					'0%': {
+						transform: 'rotate(0deg)'
+					},
+					'100%': {
+						transform: 'rotate(360deg)'
+					}
+				},
+				'typewriter': {
+					'0%': { width: '0%' },
+					'100%': { width: '100%' }
+				},
+				'pulse-glow': {
+					'0%, 100%': { 
+						boxShadow: '0 0 5px rgba(0, 8, 160, 0.5)' 
+					},
+					'50%': { 
+						boxShadow: '0 0 20px rgba(0, 8, 160, 0.8)' 
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				// AI WALA custom animations
+				'color-shift': 'color-shift 2s ease-in-out infinite',
+				'fade-in-up': 'fade-in-up 0.5s ease-out',
+				'bounce-in': 'bounce-in 0.6s ease-out',
+				'rotate-slow': 'rotate-slow 10s linear infinite',
+				'typewriter': 'typewriter 3s steps(40) forwards',
+				'pulse-glow': 'pulse-glow 2s infinite'
+			},
+			fontFamily: {
+				display: ['Montserrat', 'sans-serif'],
+				body: ['Montserrat Alternates', 'sans-serif'],
 			}
 		}
 	},
