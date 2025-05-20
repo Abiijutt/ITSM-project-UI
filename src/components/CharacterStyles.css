@@ -1,0 +1,109 @@
+
+/* Character animation and interaction styles */
+
+.character-hover {
+  transition: all 0.5s ease;
+  transform-origin: bottom center;
+}
+
+.character-hover:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+/* Glowing effect for characters */
+.glow-effect {
+  position: relative;
+}
+
+.glow-effect::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  background: transparent;
+  z-index: -1;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(var(--glow-color), 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(var(--glow-color), 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--glow-color), 0);
+  }
+}
+
+/* Shadow glow for buttons */
+.hover-shadow-glow:hover {
+  box-shadow: 0 0 20px rgba(123, 31, 162, 0.7);
+}
+
+/* Background gradient animation */
+.bg-gradient-radial {
+  background: radial-gradient(circle, rgba(123, 31, 162, 0.3) 0%, rgba(0, 0, 0, 0) 70%);
+  animation: radialPulse 4s ease-in-out infinite;
+}
+
+@keyframes radialPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.5;
+  }
+}
+
+/* Character weapon glow effect */
+.weapon-glow {
+  filter: drop-shadow(0 0 8px var(--glow-color));
+  animation: weaponPulse 2s ease-in-out infinite;
+}
+
+@keyframes weaponPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px var(--glow-color));
+  }
+  50% {
+    filter: drop-shadow(0 0 15px var(--glow-color));
+  }
+}
+
+/* Character entrance animation */
+.character-entrance {
+  animation: characterEntrance 1s cubic-bezier(0.215, 0.610, 0.355, 1.000);
+}
+
+@keyframes characterEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* AI Logo Animation */
+.aiwala-logo-pulse {
+  animation: logoPulse 3s infinite;
+}
+
+@keyframes logoPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}

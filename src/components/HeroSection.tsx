@@ -1,15 +1,19 @@
+
 import React, { useState, useEffect } from 'react';
 import { useColorShift } from '@/hooks/useColorShift';
+
 interface HeroSectionProps {
   onOpenQuestionnaire: () => void;
 }
+
 const HeroSection: React.FC<HeroSectionProps> = ({
   onOpenQuestionnaire
 }) => {
   const accentColor = useColorShift();
   const [typedText, setTypedText] = useState('');
-  const fullText = "I'll do what 10 people do";
+  const fullText = "OOOAAAYYY !! MAIN KALA E VEKH LAWA GA";
   const [isTypingComplete, setIsTypingComplete] = useState(false);
+
   useEffect(() => {
     let currentIndex = 0;
     let typingTimer: NodeJS.Timeout;
@@ -32,6 +36,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       clearTimeout(typingTimer);
     };
   }, []);
+
   return <section className="relative min-h-[80vh] flex items-center overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-white to-gray-100 z-0"></div>
@@ -98,4 +103,5 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       <div className="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-aiwala-accent bg-opacity-5 blur-3xl pointer-events-none"></div>
     </section>;
 };
+
 export default HeroSection;
