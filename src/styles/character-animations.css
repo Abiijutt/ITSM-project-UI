@@ -1,0 +1,30 @@
+
+/* Animation for each letter group */
+.pop {
+  transform-origin: 50% 65%;
+  animation: pop 2.6s cubic-bezier(.78,-0.28,.26,1.35) infinite;
+}
+
+.pop2 { animation-delay: 0.28s; }
+.pop3 { animation-delay: 0.56s; }
+.pop4 { animation-delay: 0.84s; }
+.pop5 { animation-delay: 1.12s; }
+
+.pulse-dot {
+  animation: pulseDot 1.2s infinite alternate;
+  transform-origin: 50% 50%;
+}
+
+@keyframes pulseDot {
+  0%   { opacity: 0.7; transform: scale(1);}
+  90%  { opacity: 1;   transform: scale(1.23);}
+  100% { opacity: 0.7; transform: scale(1);}
+}
+
+@keyframes pop {
+  0%, 100% { transform: scale(1);}
+  20%      { transform: scale(1.11);}
+  48%      { transform: scale(0.97);}
+  65%      { transform: scale(1.07);}
+  80%      { transform: scale(1);}
+}

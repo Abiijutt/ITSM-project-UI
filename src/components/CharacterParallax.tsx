@@ -1,5 +1,8 @@
-
 import React, { useEffect, useRef } from 'react';
+
+import '@/styles/character-hover-effects.css';
+import '@/styles/glow-effects.css';
+import '@/styles/background-effects.css';
 
 interface CharacterParallaxProps {
   imagePath: string;

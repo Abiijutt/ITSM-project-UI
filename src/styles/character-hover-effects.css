@@ -1,0 +1,27 @@
+
+/* Character hover and interaction effects */
+.character-hover {
+  transition: all 0.5s ease;
+  transform-origin: bottom center;
+}
+
+.character-hover:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+/* Character entrance animation */
+.character-entrance {
+  animation: characterEntrance 1s cubic-bezier(0.215, 0.610, 0.355, 1.000);
+}
+
+@keyframes characterEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
