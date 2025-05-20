@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useColorShift } from '@/hooks/useColorShift';
+import AIWalaLogo from './AIWalaLogo';
 
 interface HeroSectionProps {
   onOpenQuestionnaire: () => void;
@@ -37,7 +38,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     };
   }, []);
 
-  return <section className="relative min-h-[80vh] flex items-center overflow-hidden">
+  return (
+    <section className="relative min-h-[80vh] flex items-center overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-white to-gray-100 z-0"></div>
       
@@ -46,11 +48,15 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       
       <div className="container mx-auto px-4 z-10 py-16">
         <div className="max-w-4xl mx-auto text-center space-y-8">
-          <h1 className={`font-display font-black text-6xl md:text-7xl lg:text-8xl tracking-tight ${isTypingComplete ? 'animate-bounce-in' : ''}`}>
-            <span className="block mb-2">AI WALA</span>
+          {/* Logo Animation */}
+          <div className="flex justify-center mb-8">
+            <AIWalaLogo size="large" />
+          </div>
+          
+          <h1 className={`font-display font-black text-4xl md:text-5xl lg:text-6xl tracking-tight ${isTypingComplete ? 'animate-bounce-in' : ''}`}>
             <span className="relative inline-block h-24 overflow-hidden" style={{
-            color: accentColor
-          }}>
+              color: accentColor
+            }}>
               <span className="pop">{typedText}</span>
               <span className={`absolute bottom-0 right-0 h-full w-1 bg-aiwala-accent ${isTypingComplete ? 'opacity-0' : 'animate-pulse'}`}></span>
             </span>
@@ -61,11 +67,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up" style={{
-          animationDelay: '500ms'
-        }}>
+            animationDelay: '500ms'
+          }}>
             <button className="btn-aiwala text-lg px-8 py-4" style={{
-            backgroundColor: accentColor
-          }} onClick={onOpenQuestionnaire}>
+              backgroundColor: accentColor
+            }} onClick={onOpenQuestionnaire}>
               Get Your Quote
             </button>
             
@@ -75,24 +81,24 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           </div>
           
           <div className="pt-8 flex flex-wrap justify-center gap-8 text-gray-500 animate-fade-in-up" style={{
-          animationDelay: '800ms'
-        }}>
+            animationDelay: '800ms'
+          }}>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full" style={{
-              backgroundColor: accentColor
-            }}></div>
+                backgroundColor: accentColor
+              }}></div>
               <span>100% Automated</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full" style={{
-              backgroundColor: accentColor
-            }}></div>
+                backgroundColor: accentColor
+              }}></div>
               <span>5-Step Process</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full" style={{
-              backgroundColor: accentColor
-            }}></div>
+                backgroundColor: accentColor
+              }}></div>
               <span>Fixed Pricing</span>
             </div>
           </div>
@@ -101,7 +107,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       
       {/* Abstract shape */}
       <div className="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-aiwala-accent bg-opacity-5 blur-3xl pointer-events-none"></div>
-    </section>;
+    </section>
+  );
 };
 
 export default HeroSection;

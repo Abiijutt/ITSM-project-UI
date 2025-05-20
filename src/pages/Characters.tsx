@@ -4,7 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CharacterParallax from '@/components/CharacterParallax';
 import { useColorShift } from '@/hooks/useColorShift';
-import { axe } from 'lucide-react'; 
+import { Axe } from 'lucide-react';  // Corrected to uppercase "Axe"
 
 const Characters = () => {
   const accentColor = useColorShift();
@@ -30,7 +30,7 @@ const Characters = () => {
               </p>
               
               <div className="flex justify-center animate-bounce">
-                <axe size={48} style={{ color: accentColor }} className="animate-pulse" />
+                <Axe size={48} style={{ color: accentColor }} className="animate-pulse" />
               </div>
             </div>
           </div>

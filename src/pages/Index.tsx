@@ -64,7 +64,8 @@ const Index = () => {
           
           {/* Decorative elements */}
           <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-yellow-200 opacity-20 blur-3xl"></div>
-          <div className="absolute -bottom-32 -left-32 w-96 h-96 rounded-full" style={{background: `${accentColor}20`}} className="blur-3xl"></div>
+          <div className="absolute -bottom-32 -left-32 w-96 h-96 rounded-full blur-3xl" 
+               style={{background: `${accentColor}20`}}></div>
         </section>
         
         {/* Services Section */}
