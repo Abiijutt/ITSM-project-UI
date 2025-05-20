@@ -13,6 +13,7 @@ import HowItWorksSection from '@/components/sections/HowItWorksSection';
 import CharacterFeatureSection from '@/components/sections/CharacterFeatureSection';
 import StatsSection from '@/components/sections/StatsSection';
 import CtaSection from '@/components/sections/CtaSection';
+import EmbraceSection from '@/components/sections/EmbraceSection';
 
 const Index = () => {
   const [isQuestionnaireOpen, setIsQuestionnaireOpen] = useState(false);
@@ -46,6 +47,9 @@ const Index = () => {
         
         {/* Testimonial/Stats Section */}
         <StatsSection />
+        
+        {/* Embrace Technology Section */}
+        <EmbraceSection onOpenQuestionnaire={handleOpenQuestionnaire} />
         
         {/* CTA Section */}
         <CtaSection onOpenQuestionnaire={handleOpenQuestionnaire} />

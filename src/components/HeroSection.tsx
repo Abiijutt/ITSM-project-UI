@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useColorShift } from '@/hooks/useColorShift';
 import AIWalaLogo from './AIWalaLogo';
+import ServiceOrbit from './ServiceOrbit';
 
 interface HeroSectionProps {
   onOpenQuestionnaire: () => void;
@@ -14,6 +15,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   const [typedText, setTypedText] = useState('');
   const fullText = "OOOAAAYYY !! MAIN KALA E VEKH LAWA GA";
   const [isTypingComplete, setIsTypingComplete] = useState(false);
+  const [isOrbitOpen, setIsOrbitOpen] = useState(false);
 
   useEffect(() => {
     let currentIndex = 0;
@@ -37,6 +39,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       clearTimeout(typingTimer);
     };
   }, []);
+
+  const handleOpenOrbit = () => {
+    setIsOrbitOpen(true);
+  };
+
+  const handleCloseOrbit = () => {
+    setIsOrbitOpen(false);
+  };
 
   return (
     <section className="relative min-h-[80vh] flex items-center overflow-hidden">
@@ -75,7 +85,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               Get Your Quote
             </button>
             
-            <button className="px-8 py-4 bg-white text-lg border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors font-medium shadow-sm">
+            <button 
+              className="px-8 py-4 bg-white text-lg border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors font-medium shadow-sm"
+              onClick={handleOpenOrbit}
+            >
               See How it Works
             </button>
           </div>
@@ -107,6 +120,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       
       {/* Abstract shape */}
       <div className="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-aiwala-accent bg-opacity-5 blur-3xl pointer-events-none"></div>
+      
+      {/* Service Orbit */}
+      <ServiceOrbit isOpen={isOrbitOpen} onClose={handleCloseOrbit} />
     </section>
   );
 };

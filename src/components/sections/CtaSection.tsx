@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useColorShift } from '@/hooks/useColorShift';
 
 interface CtaSectionProps {
   onOpenQuestionnaire: () => void;
@@ -8,6 +9,8 @@ interface CtaSectionProps {
 const CtaSection: React.FC<CtaSectionProps> = ({
   onOpenQuestionnaire
 }) => {
+  const accentColor = useColorShift();
+  
   return (
     <section className="py-20 bg-gradient-to-br from-aiwala-accent to-black text-white relative overflow-hidden">
       <div className="container mx-auto px-4 text-center relative z-10">
@@ -19,6 +22,7 @@ const CtaSection: React.FC<CtaSectionProps> = ({
         <button 
           className="bg-white text-aiwala-accent text-lg font-medium px-8 py-4 rounded-lg hover:bg-opacity-90 transition-all transform hover:-translate-y-1 shadow-lg animate-bounce-in"
           onClick={onOpenQuestionnaire}
+          style={{ color: accentColor }}
         >
           Get Your Quote Now
         </button>

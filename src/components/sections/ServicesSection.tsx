@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { services } from '@/lib/pricingData';
 import { useColorShift } from '@/hooks/useColorShift';
+import ServiceShowcase from '@/components/ServiceShowcase';
 
 const ServicesSection = () => {
   const accentColor = useColorShift();
@@ -18,7 +19,9 @@ const ServicesSection = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <ServiceShowcase />
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
           {services.map((service, index) => (
             <div key={service.id} className="card-aiwala animate-fade-in-up" style={{ animationDelay: `${index * 100}ms` }}>
               <h3 className="text-xl font-bold mb-3">{service.name}</h3>
