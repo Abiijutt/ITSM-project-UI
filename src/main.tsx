@@ -11,7 +11,8 @@ import './styles/character-hover-effects.css';
 import './styles/glow-effects.css';
 import './styles/background-effects.css';
 import './styles/orbital-animations.css';
-import './styles/tarot-animations.css'; // Add this new file
+import './styles/tarot-animations.css';
+import './styles/service-animations.css'; // Add the new service animations
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

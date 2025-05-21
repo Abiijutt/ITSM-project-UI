@@ -1,0 +1,98 @@
+
+/* Service Icon Morphing Animations */
+.service-icon-container {
+  position: relative;
+  transition: transform 0.5s ease-out;
+  transform-style: preserve-3d;
+}
+
+.service-icon-container:hover {
+  transform: rotateY(180deg);
+}
+
+.service-icon-front,
+.service-icon-back {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  backface-visibility: hidden;
+  transition: all 0.5s ease;
+  border-radius: 50%;
+}
+
+.service-icon-front {
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.service-icon-back {
+  transform: rotateY(180deg);
+  background-size: cover;
+  background-position: center;
+}
+
+/* Service Process Animation */
+.process-step {
+  position: relative;
+}
+
+.process-connector {
+  height: 2px;
+  background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,1), rgba(255,255,255,0));
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.2; }
+  50% { opacity: 1; }
+  100% { opacity: 0.2; }
+}
+
+/* Feature Card Hover Effects */
+.feature-card {
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  border-color: rgba(var(--accent-color), 0.2);
+}
+
+/* Service Detail Hero Animation */
+.service-hero-bg {
+  position: relative;
+  overflow: hidden;
+}
+
+.service-hero-bg::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(var(--accent-color), 0.1) 0%, transparent 50%);
+  animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Deliverable Item Animation */
+.deliverable-item {
+  transition: all 0.3s ease;
+}
+
+.deliverable-item:hover {
+  transform: scale(1.05);
+}
