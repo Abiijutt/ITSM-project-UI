@@ -158,8 +158,8 @@ export default {
 				'pulse-glow': 'pulse-glow 2s infinite'
 			},
 			fontFamily: {
-				display: ['Montserrat', 'sans-serif'],
-				body: ['Montserrat Alternates', 'sans-serif'],
+				display: ['Quicksand', 'sans-serif'],
+				body: ['Nunito Sans', 'sans-serif'],
 			}
 		}
 	},
