@@ -13,6 +13,7 @@ const NavMenu = () => {
     { name: 'Home', path: '/' },
     { name: 'Services', path: '/services', hasDropdown: true },
     { name: 'Characters', path: '/characters' },
+    { name: 'How It Works', path: '/how-it-works' },
     { name: 'About', path: '/about' },
     { name: 'Contact', path: '/contact' },
   ];

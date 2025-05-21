@@ -15,6 +15,7 @@ import Dashboard from "./pages/Dashboard";
 import Characters from "./pages/Characters";
 import AiTarot from "./pages/AiTarot";
 import ServiceDetail from "./pages/ServiceDetail";
+import HowItWorks from "./pages/HowItWorks";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ const App = () => (
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/characters" element={<Characters />} />
             <Route path="/ai-tarot" element={<AiTarot />} />
+            <Route path="/how-it-works" element={<HowItWorks />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
