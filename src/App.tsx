@@ -16,6 +16,7 @@ import Characters from "./pages/Characters";
 import AiTarot from "./pages/AiTarot";
 import ServiceDetail from "./pages/ServiceDetail";
 import HowItWorks from "./pages/HowItWorks";
+import SeeHowItWorks from "./pages/SeeHowItWorks";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ const App = () => (
             <Route path="/characters" element={<Characters />} />
             <Route path="/ai-tarot" element={<AiTarot />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
+            <Route path="/see-how-it-works" element={<SeeHowItWorks />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
