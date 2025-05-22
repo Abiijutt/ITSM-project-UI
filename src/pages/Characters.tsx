@@ -8,6 +8,7 @@ import { Axe } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { serviceData } from '@/lib/serviceData';
+import ScrollZoom from '@/components/ScrollZoom';
 
 interface CharacterWithService {
   imagePath: string;
@@ -35,7 +36,7 @@ const Characters = () => {
       service: "Website & UX Design",
       funnyPhrase: "Tainu pata hai? Meinu code likhna bahut pasand hai!",
       phraseTranslation: "(Do you know? I love writing code!)",
-      serviceId: "web-ux"
+      serviceId: "website-ux"
     },
     {
       imagePath: "/lovable-uploads/a79d0288-9c52-4d1b-80a7-c0657666e1ad.png",
@@ -46,7 +47,7 @@ const Characters = () => {
       service: "Video Production",
       funnyPhrase: "Oi! Video banaan vich meri koi jod nahi!",
       phraseTranslation: "(Hey! Nobody can match me in making videos!)",
-      serviceId: "video-ads"
+      serviceId: "video-ad"
     },
     {
       imagePath: "/lovable-uploads/f65095b9-0a75-4ff0-a092-ed4b96e30194.png",
@@ -57,7 +58,7 @@ const Characters = () => {
       service: "Branding & Identity",
       funnyPhrase: "Brands ta mere haath da khel hai, paaji!",
       phraseTranslation: "(Brands are just child's play for me, brother!)",
-      serviceId: "branding"
+      serviceId: "brand-package"
     },
     {
       imagePath: "/lovable-uploads/60724da5-8419-4e3d-a8d6-64bc9057dacd.png",
@@ -68,7 +69,7 @@ const Characters = () => {
       service: "Social Media Content",
       funnyPhrase: "Oye hoye! Viral hona mera kaam hai!",
       phraseTranslation: "(Oh wow! Going viral is my job!)",
-      serviceId: "social"
+      serviceId: "social-content"
     },
     {
       imagePath: "/lovable-uploads/65ae29b9-e5d6-44a7-b747-f360c5dc07af.png",
@@ -79,7 +80,7 @@ const Characters = () => {
       service: "3D Bot Creation",
       funnyPhrase: "Main ta 3D vich jeena shuru kar ditta!",
       phraseTranslation: "(I've started living in 3D!)",
-      serviceId: "3d-bot"
+      serviceId: "3d-rickshaw-bot"
     },
     {
       imagePath: "/lovable-uploads/4bf6d862-98f5-40b4-b935-0a1325a5f19e.png",

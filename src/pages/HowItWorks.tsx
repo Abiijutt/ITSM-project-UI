@@ -6,7 +6,8 @@ import { useColorShift } from '@/hooks/useColorShift';
 import { motion } from 'framer-motion';
 import ScrollZoom from '@/components/ScrollZoom';
 import ServiceOrbit from '@/components/ServiceOrbit';
-import { ArrowRight, Check, Zap, Infinity, RotateView } from 'lucide-react';
+import { ArrowRight, Check, Zap, Infinity, RotateCw } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const HowItWorks = () => {
   const accentColor = useColorShift();
@@ -136,7 +137,7 @@ const HowItWorks = () => {
                   description: "Our AI system processes your questionnaire responses and analyzes your business needs with deep learning algorithms."
                 },
                 {
-                  icon: <RotateView size={36} />,
+                  icon: <RotateCw size={36} />,
                   title: "Multi-Model Processing",
                   description: "Multiple specialized AI models collaborate to create digital assets across branding, web design, content, and more."
                 },
