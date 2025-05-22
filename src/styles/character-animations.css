@@ -28,3 +28,54 @@
   65%      { transform: scale(1.07);}
   80%      { transform: scale(1);}
 }
+
+/* Character entrance animation - enhanced */
+.character-entrance {
+  animation: characterEntrance 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes characterEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(80px) scale(0.8);
+    filter: blur(8px);
+  }
+  60% {
+    filter: blur(0);
+  }
+  80% {
+    transform: translateY(-10px) scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Add floating animation for the character images */
+.character-element:hover img {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px) rotate(2deg);
+  }
+}
+
+/* Pulse glow effect for dialogue boxes */
+.character-element:hover .bg-gray-900 {
+  animation: pulseGlow 2s infinite alternate;
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+  }
+}

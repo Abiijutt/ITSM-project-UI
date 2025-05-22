@@ -19,7 +19,7 @@ const FeaturedCharacterSection = () => {
             </p>
             <Link 
               to="/characters" 
-              className="px-6 py-3 rounded-lg text-white font-medium transition-all hover:scale-105"
+              className="px-6 py-3 rounded-lg text-white font-medium transition-all hover:scale-105 animate-pulse-slow"
               style={{ backgroundColor: accentColor }}
             >
               View All Characters
@@ -31,7 +31,7 @@ const FeaturedCharacterSection = () => {
               <img 
                 src="/lovable-uploads/f65095b9-0a75-4ff0-a092-ed4b96e30194.png" 
                 alt="Featured AI Warrior with Orange Turban"
-                className="w-60 md:w-80 h-auto filter drop-shadow-2xl character-hover"
+                className="w-60 md:w-80 h-auto filter drop-shadow-2xl character-hover pop3"
                 style={{ filter: `drop-shadow(0 10px 15px rgba(255, 165, 0, 0.5))` }}
               />
             </ScrollZoom>

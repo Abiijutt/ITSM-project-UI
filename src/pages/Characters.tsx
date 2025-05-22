@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CharacterParallax from '@/components/CharacterParallax';
@@ -9,6 +9,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { serviceData } from '@/lib/serviceData';
 import ScrollZoom from '@/components/ScrollZoom';
+import '../styles/character-animations.css';
 
 interface CharacterWithService {
   imagePath: string;
@@ -20,80 +21,97 @@ interface CharacterWithService {
   funnyPhrase: string;
   phraseTranslation: string;
   serviceId: string;
+  animationClass?: string;
 }
 
 const Characters = () => {
   const accentColor = useColorShift();
 
-  // Character data with service assignments and Punjabi phrases
+  // Character data with service assignments and Pakistani Punjabi phrases
   const characters: CharacterWithService[] = [
     {
       imagePath: "/lovable-uploads/5d0caf15-21fe-4934-920f-5fa05bee0cfb.png",
-      name: "Neela Yoddha",
+      name: "Babbu Chaudhry",
       altText: "Cyborg Warrior with Blue Outfit and Axe",
       glowColor: "rgba(0, 162, 255, 0.6)",
       position: "left",
       service: "Website & UX Design",
-      funnyPhrase: "Tainu pata hai? Meinu code likhna bahut pasand hai!",
-      phraseTranslation: "(Do you know? I love writing code!)",
-      serviceId: "website-ux"
+      funnyPhrase: "Oy yaara, main taan coding ch kamaal aan!",
+      phraseTranslation: "(Hey buddy, I'm amazing at coding!)",
+      serviceId: "website-ux",
+      animationClass: "pop"
     },
     {
       imagePath: "/lovable-uploads/a79d0288-9c52-4d1b-80a7-c0657666e1ad.png",
-      name: "Laal Singh",
+      name: "Tufail Jutt",
       altText: "Cyborg Warrior with Red Outfit and Axe",
       glowColor: "rgba(162, 60, 20, 0.6)",
       position: "right",
       service: "Video Production",
-      funnyPhrase: "Oi! Video banaan vich meri koi jod nahi!",
-      phraseTranslation: "(Hey! Nobody can match me in making videos!)",
-      serviceId: "video-ad"
+      funnyPhrase: "Vekho ji, video banauna mera khel ae!",
+      phraseTranslation: "(Look here, making videos is my game!)",
+      serviceId: "video-ad",
+      animationClass: "pop2"
     },
     {
       imagePath: "/lovable-uploads/f65095b9-0a75-4ff0-a092-ed4b96e30194.png",
-      name: "Kesri Jawan",
+      name: "Paa Ji Soorma",
       altText: "Cyborg Warrior with Orange Turban and Axe",
       glowColor: "rgba(255, 165, 0, 0.6)",
       position: "center",
       service: "Branding & Identity",
-      funnyPhrase: "Brands ta mere haath da khel hai, paaji!",
-      phraseTranslation: "(Brands are just child's play for me, brother!)",
-      serviceId: "brand-package"
+      funnyPhrase: "Brand banauna mere khuun ch ae, dasso ki chaida!",
+      phraseTranslation: "(Brand building is in my blood, tell me what you need!)",
+      serviceId: "brand-package",
+      animationClass: "pop3"
     },
     {
       imagePath: "/lovable-uploads/60724da5-8419-4e3d-a8d6-64bc9057dacd.png",
-      name: "Jaamani Kaur",
+      name: "Guddi Rani",
       altText: "Cyborg Warrior with Red Turban and Glowing Purple Axe",
       glowColor: "rgba(170, 0, 255, 0.6)",
       position: "left",
       service: "Social Media Content",
-      funnyPhrase: "Oye hoye! Viral hona mera kaam hai!",
-      phraseTranslation: "(Oh wow! Going viral is my job!)",
-      serviceId: "social-content"
+      funnyPhrase: "Chal oye, mainu viral karauna koi mushkil nai!",
+      phraseTranslation: "(Come on, making things viral is no problem for me!)",
+      serviceId: "social-content",
+      animationClass: "pop4"
     },
     {
       imagePath: "/lovable-uploads/65ae29b9-e5d6-44a7-b747-f360c5dc07af.png",
-      name: "Hara Sher",
+      name: "Faisla Phelwan",
       altText: "Cyborg Warrior with Green Turban and Glowing Green Axe",
       glowColor: "rgba(0, 255, 85, 0.6)",
       position: "right",
       service: "3D Bot Creation",
-      funnyPhrase: "Main ta 3D vich jeena shuru kar ditta!",
-      phraseTranslation: "(I've started living in 3D!)",
-      serviceId: "3d-rickshaw-bot"
+      funnyPhrase: "Teri majboori samjha, 3D ch rahna meri majboori ae!",
+      phraseTranslation: "(I understand your need, living in 3D is my destiny!)",
+      serviceId: "3d-rickshaw-bot",
+      animationClass: "pop5"
     },
     {
       imagePath: "/lovable-uploads/4bf6d862-98f5-40b4-b935-0a1325a5f19e.png",
-      name: "Hara Beta",
+      name: "Channa Miyan",
       altText: "Cyborg Warrior with Green Outfit Standing",
       glowColor: "rgba(0, 128, 85, 0.6)",
       position: "center",
       service: "AI Copywriting",
-      funnyPhrase: "Meri kalam ton likhe shabd, dil nu tuhnde!",
-      phraseTranslation: "(The words from my pen touch the heart!)",
-      serviceId: "ai-copy"
+      funnyPhrase: "Meri likhat parhke log pagal ho jande ne!",
+      phraseTranslation: "(People go crazy reading my writing!)",
+      serviceId: "ai-copy",
+      animationClass: "pop"
     }
   ];
+
+  // Add animation to characters on load
+  useEffect(() => {
+    const characterElements = document.querySelectorAll('.character-element');
+    characterElements.forEach((element, index) => {
+      setTimeout(() => {
+        element.classList.add('character-entrance');
+      }, index * 200);
+    });
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -130,7 +148,7 @@ const Characters = () => {
             
             <div className="space-y-32">
               {characters.map((character, index) => (
-                <div key={index} className="relative">
+                <div key={index} className="relative character-element">
                   <CharacterParallax 
                     imagePath={character.imagePath}
                     altText={character.altText}
@@ -141,7 +159,10 @@ const Characters = () => {
                   />
                   
                   <motion.div 
-                    className="absolute top-full left-1/2 transform -translate-x-1/2 -translate-y-24 bg-gray-900 p-4 rounded-lg shadow-lg text-center border-2 max-w-md"
+                    className={`absolute ${character.position === 'left' ? 'top-1/2 right-0 transform -translate-y-1/2 mr-8' : 
+                      character.position === 'right' ? 'top-1/2 left-0 transform -translate-y-1/2 ml-8' : 
+                      'top-full left-1/2 transform -translate-x-1/2 -translate-y-24'} 
+                      bg-gray-900 p-4 rounded-lg shadow-lg text-center border-2 max-w-md ${character.animationClass}`}
                     style={{ borderColor: character.glowColor }}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -205,7 +226,7 @@ const Characters = () => {
                       <img 
                         src={character.imagePath} 
                         alt={character.name} 
-                        className="w-full h-full object-contain z-10 relative"
+                        className={`w-full h-full object-contain z-10 relative ${character.animationClass}`}
                       />
                     </div>
                     <h3 className="text-lg font-bold mb-1 text-white">
