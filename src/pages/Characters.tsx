@@ -119,14 +119,14 @@ const Characters = () => {
       
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="relative py-20 bg-black text-white overflow-hidden">
+        <section className="relative py-20 bg-black text-white overflow-hidden" aria-labelledby="characters-heading">
           <div className="absolute inset-0 opacity-25 z-0">
             <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black"></div>
           </div>
           
           <div className="container mx-auto px-4 z-10 relative">
             <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-5xl md:text-6xl font-bold mb-6">
+              <h1 id="characters-heading" className="text-5xl md:text-6xl font-bold mb-6">
                 AI WALA <span style={{ color: accentColor }} className="block mt-2">Characters</span>
               </h1>
               <p className="text-xl text-gray-300 mb-8">
@@ -135,16 +135,16 @@ const Characters = () => {
               </p>
               
               <div className="flex justify-center animate-bounce">
-                <Axe size={48} style={{ color: accentColor }} className="animate-pulse" />
+                <Axe size={48} style={{ color: accentColor }} className="animate-pulse" aria-hidden="true" />
               </div>
             </div>
           </div>
         </section>
         
         {/* Characters Section with Parallax */}
-        <section className="py-20 bg-gradient-to-b from-black to-gray-900 overflow-hidden">
+        <section className="py-20 bg-gradient-to-b from-black to-gray-900 overflow-hidden" aria-labelledby="warriors-heading">
           <div className="container mx-auto">
-            <h2 className="text-4xl font-bold text-center text-white mb-16">The Warriors</h2>
+            <h2 id="warriors-heading" className="text-4xl font-bold text-center text-white mb-16">The Warriors</h2>
             
             <div className="space-y-32">
               {characters.map((character, index) => (
@@ -159,10 +159,10 @@ const Characters = () => {
                   />
                   
                   <motion.div 
-                    className={`absolute ${character.position === 'left' ? 'top-1/2 right-0 transform -translate-y-1/2 mr-8' : 
-                      character.position === 'right' ? 'top-1/2 left-0 transform -translate-y-1/2 ml-8' : 
+                    className={`absolute ${character.position === 'left' ? 'md:top-1/2 md:right-0 top-full right-1/2 md:transform-none transform translate-x-1/2 md:-translate-y-1/2 md:mr-8' : 
+                      character.position === 'right' ? 'md:top-1/2 md:left-0 top-full left-1/2 md:transform-none transform -translate-x-1/2 md:-translate-y-1/2 md:ml-8' : 
                       'top-full left-1/2 transform -translate-x-1/2 -translate-y-24'} 
-                      bg-gray-900 p-4 rounded-lg shadow-lg text-center border-2 max-w-md ${character.animationClass}`}
+                      bg-gray-900 p-4 rounded-lg shadow-lg text-center border-2 max-w-md ${character.animationClass} z-10`}
                     style={{ borderColor: character.glowColor }}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -186,6 +186,7 @@ const Characters = () => {
                       to={`/services/${character.serviceId}`} 
                       className="mt-3 inline-block px-4 py-2 rounded-md text-sm font-medium text-white"
                       style={{ backgroundColor: character.glowColor }}
+                      aria-label={`See ${character.service} details`}
                     >
                       See {character.service}
                     </Link>
@@ -197,17 +198,17 @@ const Characters = () => {
         </section>
         
         {/* Team Section */}
-        <section className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
+        <section className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden" aria-labelledby="team-heading">
           <div className="container mx-auto px-4">
             <div className="max-w-5xl mx-auto">
               <div className="text-center mb-16">
-                <h2 className="text-4xl font-bold text-white mb-6">Meet The AI Team</h2>
+                <h2 id="team-heading" className="text-4xl font-bold text-white mb-6">Meet The AI Team</h2>
                 <p className="text-xl text-gray-300">
                   Our warriors work together seamlessly to deliver exceptional digital services—without any human intervention.
                 </p>
               </div>
               
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                 {characters.map((character, index) => (
                   <motion.div 
                     key={index}
@@ -222,11 +223,13 @@ const Characters = () => {
                       <div 
                         className="absolute inset-0 rounded-full opacity-40"
                         style={{ backgroundColor: character.glowColor }}
+                        aria-hidden="true"
                       ></div>
                       <img 
                         src={character.imagePath} 
                         alt={character.name} 
                         className={`w-full h-full object-contain z-10 relative ${character.animationClass}`}
+                        loading="lazy"
                       />
                     </div>
                     <h3 className="text-lg font-bold mb-1 text-white">
@@ -245,14 +248,14 @@ const Characters = () => {
           </div>
           
           {/* Background decoration */}
-          <div className="absolute -bottom-32 left-0 w-full h-64 bg-gradient-to-t from-transparent to-black opacity-50"></div>
+          <div className="absolute -bottom-32 left-0 w-full h-64 bg-gradient-to-t from-transparent to-black opacity-50" aria-hidden="true"></div>
         </section>
         
         {/* Call to Action Section */}
-        <section className="py-20 bg-black text-white">
+        <section className="py-20 bg-black text-white" aria-labelledby="cta-heading">
           <div className="container mx-auto px-4 text-center">
             <ScrollZoom threshold={0.3}>
-              <h2 className="text-4xl font-bold mb-6">Want to see our warriors in action?</h2>
+              <h2 id="cta-heading" className="text-4xl font-bold mb-6">Want to see our warriors in action?</h2>
               <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
                 Let our AI team handle your digital needs. No humans, just pure AI power!
               </p>
@@ -262,6 +265,7 @@ const Characters = () => {
                   to="/how-it-works" 
                   className="px-8 py-4 rounded-lg text-white font-bold text-lg shadow-lg hover:shadow-xl transition-all"
                   style={{ backgroundColor: accentColor }}
+                  aria-label="Learn how our AI services work"
                 >
                   See How It Works
                 </Link>
@@ -270,6 +274,7 @@ const Characters = () => {
                   to="/services" 
                   className="px-8 py-4 rounded-lg font-bold text-lg border-2 shadow-lg hover:shadow-xl transition-all"
                   style={{ borderColor: accentColor, color: accentColor }}
+                  aria-label="Explore our AI-powered services"
                 >
                   Explore Our Services
                 </Link>

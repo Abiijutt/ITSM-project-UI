@@ -19,15 +19,16 @@ const ServiceCharacter: React.FC<ServiceCharacterProps> = ({
   const glow = glowColor || accentColor;
   
   return (
-    <div className="flex flex-col items-center text-center p-4">
+    <div className="flex flex-col items-center text-center p-4" tabIndex={0}>
       <div 
         className="mb-4 relative"
         style={{ filter: `drop-shadow(0 0 10px ${glow}40)` }}
       >
         <img 
           src={image} 
-          alt={title}
+          alt={`${title} character`}
           className="w-40 h-40 object-contain character-hover"
+          loading="lazy"
         />
       </div>
       <h3 className="text-xl font-bold mb-2">{title}</h3>

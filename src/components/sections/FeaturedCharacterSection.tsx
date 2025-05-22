@@ -21,6 +21,7 @@ const FeaturedCharacterSection = () => {
               to="/characters" 
               className="px-6 py-3 rounded-lg text-white font-medium transition-all hover:scale-105 animate-pulse-slow"
               style={{ backgroundColor: accentColor }}
+              aria-label="View all AI character warriors"
             >
               View All Characters
             </Link>
