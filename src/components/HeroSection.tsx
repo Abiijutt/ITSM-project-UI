@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { useColorShift } from '@/hooks/useColorShift';
 import AIWalaLogo from './AIWalaLogo';
 import ServiceOrbit from './ServiceOrbit';
+import { motion } from 'framer-motion';
+import { Sparkles } from 'lucide-react';
 
 interface HeroSectionProps {
   onOpenQuestionnaire: () => void;
@@ -71,6 +73,87 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               <span className={`absolute bottom-0 right-0 h-full w-1 bg-aiwala-accent ${isTypingComplete ? 'opacity-0' : 'animate-pulse'}`}></span>
             </span>
           </h1>
+          
+          {/* Enhanced Dynamic Punjabi Text */}
+          <motion.div
+            className="relative my-12"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 2 }}
+          >
+            <motion.h2
+              className="text-3xl md:text-4xl lg:text-5xl font-black mb-4 relative z-10"
+              style={{ 
+                background: `linear-gradient(45deg, ${accentColor}, #ff6b6b, #4ecdc4, ${accentColor})`,
+                backgroundSize: '300% 300%',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}
+              animate={{
+                backgroundPosition: ['0% 50%', '100% 50%', '0% 50%']
+              }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                repeatType: "reverse"
+              }}
+            >
+              <motion.span
+                className="inline-block"
+                animate={{
+                  rotateX: [0, 10, 0],
+                  rotateY: [0, 5, 0],
+                  scale: [1, 1.05, 1]
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  repeatType: "reverse"
+                }}
+                style={{
+                  transformStyle: 'preserve-3d',
+                  textShadow: `2px 2px 10px ${accentColor}40`
+                }}
+              >
+                "OOOAAAYYY !! MAIN KALA E VEKH LAWA GA"
+              </motion.span>
+            </motion.h2>
+            
+            <motion.p
+              className="text-lg text-gray-600 italic"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 2.5 }}
+            >
+              (Oh yes! I will definitely see and show you the magic!)
+            </motion.p>
+            
+            {/* Floating sparkles around the text */}
+            {[...Array(6)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute text-yellow-400"
+                style={{
+                  left: `${10 + (i * 15)}%`,
+                  top: `${20 + (i % 3) * 20}%`,
+                }}
+                animate={{
+                  y: [0, -20, 0],
+                  rotate: [0, 180, 360],
+                  opacity: [0.4, 0.8, 0.4]
+                }}
+                transition={{
+                  duration: 3 + (i * 0.5),
+                  delay: i * 0.3,
+                  repeat: Infinity,
+                  repeatType: "reverse"
+                }}
+              >
+                <Sparkles size={16 + (i % 3) * 4} />
+              </motion.div>
+            ))}
+          </motion.div>
           
           <p className="text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto animate-fade-in-up">
             Your zero-human, fully automated AI digital agency that delivers branding, web, social, and video—all through one rickshaw bot.

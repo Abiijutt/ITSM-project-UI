@@ -2,919 +2,904 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { characters } from '@/lib/characterData';
 import { useColorShift } from '@/hooks/useColorShift';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Shield, Zap, Star, Sparkles, CheckCircle, Rocket } from 'lucide-react';
+import { ArrowDown, Eye, Brush, PenTool, Code, MessageCircle, Video, Truck, Sparkles, Star, Zap, CheckCircle, Rocket } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import '../styles/character-animations.css';
 import '../styles/glow-effects.css';
 
-// Define the brand journey steps
-const brandJourneySteps = [
+// Define the 7-stage bot specialists
+const botSpecialists = [
   {
-    phase: "Discovery",
-    icon: <Zap className="mb-2" size={32} />,
-    description: "Understanding your brand's vision and goals",
-    character: characters[5], // Channa Miyan
+    id: 'insight',
+    name: 'Insight Bot',
+    icon: <Eye size={40} />,
+    animation: 'data-stream',
+    description: 'Analyzes your brand DNA',
+    details: 'Deep market research, competitor analysis, and audience insights powered by AI algorithms',
+    color: '#00f5ff'
   },
   {
-    phase: "Strategy",
-    icon: <Star className="mb-2" size={32} />,
-    description: "Developing the perfect approach for your brand",
-    character: characters[3], // Guddi Rani
+    id: 'branding',
+    name: 'Branding Bot',
+    icon: <Brush size={40} />,
+    animation: 'paint-stroke',
+    description: 'Shapes your visual identity',
+    details: 'Logo creation, color palettes, typography systems, and brand guidelines in minutes',
+    color: '#ff6b6b'
   },
   {
-    phase: "Creation",
-    icon: <Sparkles className="mb-2" size={32} />,
-    description: "Crafting your brand identity and assets",
-    character: characters[2], // Paa Ji Soorma
+    id: 'copy',
+    name: 'Copy Bot',
+    icon: <PenTool size={40} />,
+    animation: 'typing',
+    description: 'Writes your voice',
+    details: 'Compelling copy, blog posts, social content, and marketing materials tailored to your brand',
+    color: '#4ecdc4'
   },
   {
-    phase: "Implementation",
-    icon: <CheckCircle className="mb-2" size={32} />,
-    description: "Building your digital presence",
-    character: characters[0], // Babbu Chaudhry
+    id: 'web',
+    name: 'Web Bot',
+    icon: <Code size={40} />,
+    animation: 'code-assembly',
+    description: 'Builds your digital home',
+    details: 'Responsive websites, e-commerce stores, and web applications with modern design',
+    color: '#45b7d1'
   },
   {
-    phase: "Growth",
-    icon: <Rocket className="mb-2" size={32} />,
-    description: "Expanding your reach and visibility",
-    character: characters[1], // Tufail Jutt
+    id: 'social',
+    name: 'Social Bot',
+    icon: <MessageCircle size={40} />,
+    animation: 'social-burst',
+    description: 'Ignites your social buzz',
+    details: 'Social media campaigns, content calendars, and engagement strategies across all platforms',
+    color: '#96ceb4'
+  },
+  {
+    id: 'video',
+    name: 'Video Bot',
+    icon: <Video size={40} />,
+    animation: 'video-stitch',
+    description: 'Produces your story in motion',
+    details: 'Professional videos, animations, motion graphics, and video marketing content',
+    color: '#feca57'
+  },
+  {
+    id: 'rickshaw',
+    name: 'Rickshaw Master',
+    icon: <Truck size={40} />,
+    animation: 'delivery',
+    description: 'Delivers it all—faster than any team',
+    details: 'Coordinates all bots, manages projects, and ensures seamless delivery of your complete brand',
+    color: '#ff9ff3'
   }
+];
+
+// Service cards for superpower showcase
+const serviceCards = [
+  {
+    title: 'Brand Identity',
+    frontIcon: <Brush size={60} />,
+    backDetails: 'Logo, color palette, typography, moodboard—crafted in under 60 sec.',
+    color: '#ff6b6b'
+  },
+  {
+    title: 'Web Development',
+    frontIcon: <Code size={60} />,
+    backDetails: 'Responsive, SEO-ready, AI-optimized sites—built in minutes, deployed instantly.',
+    color: '#45b7d1'
+  },
+  {
+    title: 'Content Creation',
+    frontIcon: <PenTool size={60} />,
+    backDetails: 'Blogs, captions, emails—written, proofed & A/B-tested by AI on the fly.',
+    color: '#4ecdc4'
+  },
+  {
+    title: 'Social Ads',
+    frontIcon: <MessageCircle size={60} />,
+    backDetails: 'Targeted campaigns, creative variants, real-time budget optimization.',
+    color: '#96ceb4'
+  },
+  {
+    title: 'Video Production',
+    frontIcon: <Video size={60} />,
+    backDetails: 'Script, storyboards, voice-over, edit—AI-directed clips ready to publish.',
+    color: '#feca57'
+  },
+  {
+    title: 'Data Insights',
+    frontIcon: <Eye size={60} />,
+    backDetails: 'User behavior, trend forecasting, engagement heatmaps—actionable dashboards updated hourly.',
+    color: '#00f5ff'
+  }
+];
+
+// Timeline demo tabs
+const timelineTabs = [
+  { id: 'start', label: 'Start', scene: 'blank-rickshaw' },
+  { id: 'questionnaire', label: 'Questionnaire', scene: 'form-filling' },
+  { id: 'design', label: 'Design', scene: 'bot-assembly' },
+  { id: 'launch', label: 'Launch', scene: 'celebration' }
 ];
 
 const SeeHowItWorks = () => {
   const accentColor = useColorShift();
-  const [activeStep, setActiveStep] = useState(0);
-  const [showTeam, setShowTeam] = useState(false);
-  const [visibleCharacters, setVisibleCharacters] = useState<number[]>([]);
+  const [currentStage, setCurrentStage] = useState(0);
+  const [activeTimelineTab, setActiveTimelineTab] = useState('start');
+  const [visibleCards, setVisibleCards] = useState<number[]>([]);
+  const [showTeamAssembly, setShowTeamAssembly] = useState(false);
+  const heroRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
-  
-  // Handle scroll to activate timeline steps
+  const showcaseRef = useRef<HTMLDivElement>(null);
+
+  // Handle scroll-triggered animations
   useEffect(() => {
     const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+
+      // Timeline stage progression
       if (timelineRef.current) {
         const timelineTop = timelineRef.current.getBoundingClientRect().top;
-        const windowHeight = window.innerHeight;
-        
-        // Calculate which step should be active based on scroll position
         if (timelineTop < windowHeight * 0.8) {
-          const scrollPosition = window.scrollY;
-          const timelineHeight = timelineRef.current.offsetHeight;
-          const stepHeight = timelineHeight / brandJourneySteps.length;
-          const currentStep = Math.min(
-            Math.floor((scrollPosition - timelineTop + windowHeight * 0.8) / stepHeight),
-            brandJourneySteps.length - 1
-          );
-          
-          if (currentStep >= 0 && currentStep !== activeStep) {
-            setActiveStep(currentStep);
-            // Add the current character to visible characters if not already there
-            setVisibleCharacters(prev => 
-              prev.includes(currentStep) ? prev : [...prev, currentStep]
-            );
-          }
-          
-          // Show team assembly when we reach the end of the timeline
-          if (currentStep >= brandJourneySteps.length - 1) {
-            setTimeout(() => {
-              setShowTeam(true);
-            }, 1000);
+          const stageProgress = Math.min(Math.floor((scrollY - timelineTop + windowHeight) / (windowHeight * 0.3)), botSpecialists.length - 1);
+          if (stageProgress >= 0 && stageProgress !== currentStage) {
+            setCurrentStage(stageProgress);
           }
         }
       }
+
+      // Service cards visibility
+      if (showcaseRef.current) {
+        const showcaseTop = showcaseRef.current.getBoundingClientRect().top;
+        if (showcaseTop < windowHeight * 0.9) {
+          serviceCards.forEach((_, index) => {
+            setTimeout(() => {
+              setVisibleCards(prev => prev.includes(index) ? prev : [...prev, index]);
+            }, index * 200);
+          });
+        }
+      }
     };
-    
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [activeStep]);
-  
-  // Auto progress through the timeline for demo purposes
+  }, [currentStage]);
+
+  // Auto-progress timeline for demo
   useEffect(() => {
     const interval = setInterval(() => {
-      setActiveStep(prev => {
-        const nextStep = (prev + 1) % brandJourneySteps.length;
-        
-        // Add the character to visible characters
-        setVisibleCharacters(prevChars => 
-          prevChars.includes(nextStep) ? prevChars : [...prevChars, nextStep]
-        );
-        
-        // Show team assembly when we reach the end
-        if (nextStep === brandJourneySteps.length - 1) {
-          setTimeout(() => {
-            setShowTeam(true);
-          }, 1000);
-        }
-        
-        return nextStep;
-      });
+      setCurrentStage(prev => (prev + 1) % botSpecialists.length);
     }, 4000);
-    
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 to-black text-white">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white overflow-hidden">
       <Header />
       
-      <main className="flex-grow">
-        {/* Hero Section with Magical Introduction */}
-        <section className="py-20 px-4 relative overflow-hidden">
-          <div className="absolute inset-0 z-0 opacity-30">
-            <div className="absolute inset-0 bg-gradient-radial"></div>
-            <div className="absolute top-0 left-0 w-full h-full bg-[url('/lovable-uploads/f65095b9-0a75-4ff0-a092-ed4b96e30194.png')] bg-no-repeat bg-center bg-contain opacity-10"></div>
-          </div>
-          
-          <div className="container mx-auto relative z-10">
-            <motion.div 
-              className="text-center mb-16"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1 }}
-            >
-              <div className="relative mb-6">
-                <motion.h1 
-                  className="text-5xl md:text-6xl font-bold hero-text-animate inline-block"
-                  initial={{ y: 50, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 1, delay: 0.3 }}
-                >
-                  <motion.span 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.3 }}
-                  >The</motion.span>{" "}
-                  <motion.span 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.6 }}
-                  >Brand</motion.span>{" "}
-                  <motion.span 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.9 }}
-                  >Building</motion.span>{" "}
-                  <motion.span 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 1.2 }}
-                    style={{ color: accentColor }}
-                    className="relative"
-                  >
-                    Journey
-                    <motion.div 
-                      className="absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-transparent via-white to-transparent w-full"
-                      initial={{ scaleX: 0, opacity: 0 }}
-                      animate={{ scaleX: 1, opacity: 0.8 }}
-                      transition={{ duration: 1, delay: 1.5 }}
-                    />
-                  </motion.span>
-                </motion.h1>
-                
-                <motion.div 
-                  className="absolute -top-10 -right-10 w-32 h-32 text-yellow-400 opacity-70"
-                  initial={{ scale: 0, rotate: -180, opacity: 0 }}
-                  animate={{ scale: 1, rotate: 0, opacity: 0.7 }}
-                  transition={{ duration: 1, delay: 1.7, type: "spring" }}
-                >
-                  <Sparkles size={32} className="absolute top-0 right-0" />
-                  <Sparkles size={24} className="absolute top-12 right-12" />
-                  <Sparkles size={18} className="absolute top-20 right-6" />
-                </motion.div>
-              </div>
-              
-              <motion.p 
-                className="text-xl text-gray-300 max-w-3xl mx-auto mb-10"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 1.8 }}
-              >
-                Witness our superhero AI team transform your brand through a magical journey
-                of discovery, strategy, creation, implementation and growth.
-              </motion.p>
-              
+      {/* Hero Animation Intro */}
+      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Animated Background */}
+        <div className="absolute inset-0 z-0">
+          <div 
+            className="absolute inset-0 opacity-30"
+            style={{
+              background: `linear-gradient(135deg, ${accentColor}20, transparent, ${accentColor}10)`
+            }}
+          />
+          {/* Animated circuitry lines */}
+          <div className="absolute inset-0 opacity-20">
+            {[...Array(20)].map((_, i) => (
               <motion.div
-                className="flex justify-center"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 2 }}
-              >
-                <Link to="#brand-journey" className="px-6 py-3 rounded-lg bg-gradient-to-r from-purple-600 to-blue-500 text-white font-bold flex items-center space-x-2 hover:from-purple-700 hover:to-blue-600 transition-all shadow-lg hover:shadow-xl">
-                  <span>Begin the Journey</span>
-                  <ArrowRight size={18} />
-                </Link>
-              </motion.div>
-            </motion.div>
-            
-            <motion.div
-              initial={{ y: 100, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 1, delay: 2.2 }}
-              className="relative h-64 md:h-96"
-            >
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="relative w-32 h-32 md:w-48 md:h-48">
-                  <motion.div
-                    className="absolute inset-0 rounded-full"
-                    style={{ backgroundColor: `${accentColor}30` }}
-                    animate={{ 
-                      scale: [1, 1.2, 1],
-                      opacity: [0.7, 0.9, 0.7]
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      repeatType: "reverse"
-                    }}
-                  />
-                  <div className="absolute inset-2 rounded-full bg-gray-900 flex items-center justify-center overflow-hidden">
-                    <motion.img 
-                      src={characters[2].imagePath} 
-                      alt="Main Character" 
-                      className="w-3/4 h-3/4 object-contain"
-                      style={{ filter: `drop-shadow(0 0 10px ${characters[2].glowColor})` }}
-                      animate={{ 
-                        y: [0, -5, 0],
-                        rotate: [0, 5, 0, -5, 0]
-                      }}
-                      transition={{
-                        duration: 6,
-                        repeat: Infinity,
-                        repeatType: "reverse"
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-              
-              {/* Orbiting characters */}
-              {characters.slice(0, 5).map((character, i) => {
-                if (i === 2) return null; // Skip the center character
-                const angle = (i * (360 / 4)) % 360;
-                const delay = i * 0.2;
-                const radius = 160;
-                
-                const x = Math.cos((angle * Math.PI) / 180) * radius;
-                const y = Math.sin((angle * Math.PI) / 180) * radius;
-                
-                return (
-                  <motion.div
-                    key={i}
-                    className="absolute left-1/2 top-1/2 w-16 h-16 md:w-24 md:h-24"
-                    initial={{ x: 0, y: 0, opacity: 0, scale: 0 }}
-                    animate={{ 
-                      x: x, 
-                      y: y, 
-                      opacity: 1, 
-                      scale: 1,
-                      rotate: [0, 360]
-                    }}
-                    transition={{ 
-                      duration: 20,
-                      delay: 2.5 + delay,
-                      repeat: Infinity,
-                      repeatType: "loop",
-                      type: "tween",
-                      rotate: {
-                        duration: 20,
-                        repeat: Infinity,
-                        ease: "linear"
-                      }
-                    }}
-                  >
-                    <div className="w-full h-full rounded-full bg-gray-800 bg-opacity-50 flex items-center justify-center p-1 shadow-lg">
-                      <img 
-                        src={character.imagePath} 
-                        alt={character.name} 
-                        className="w-full h-full object-contain"
-                        style={{ filter: `drop-shadow(0 0 5px ${character.glowColor})` }}
-                      />
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </motion.div>
-          </div>
-        </section>
-        
-        {/* Brand Journey Timeline Section */}
-        <section id="brand-journey" className="py-20 px-4 relative" ref={timelineRef}>
-          <div className="container mx-auto max-w-5xl">
-            <div className="text-center mb-16">
-              <motion.h2 
-                className="text-4xl font-bold mb-6"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-              >
-                The Brand Building <span style={{ color: accentColor }}>Journey</span>
-              </motion.h2>
-              
-              <motion.p 
-                className="text-xl text-gray-300 max-w-3xl mx-auto"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              >
-                Follow the magical transformation of your brand through our superhero team's expertise
-              </motion.p>
-            </div>
-            
-            {/* Timeline Steps */}
-            <div className="relative mt-20">
-              {/* Timeline connector */}
-              <div className="absolute left-1/2 transform -translate-x-1/2 top-0 bottom-0 w-1 bg-gray-700">
-                <motion.div 
-                  className="absolute top-0 w-full bg-gradient-to-b"
-                  style={{ 
-                    background: `linear-gradient(to bottom, ${accentColor}, transparent)`,
-                    height: `${((activeStep + 1) / brandJourneySteps.length) * 100}%`
-                  }}
-                />
-              </div>
-              
-              {/* Timeline steps */}
-              {brandJourneySteps.map((step, index) => {
-                const isActive = activeStep >= index;
-                const isEven = index % 2 === 0;
-                
-                return (
-                  <div key={index} className="relative mb-24">
-                    <div 
-                      className={`flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} items-center`}
-                    >
-                      {/* Timeline dot */}
-                      <motion.div 
-                        className="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full z-10"
-                        style={{ 
-                          backgroundColor: isActive ? step.character.glowColor : 'gray',
-                          boxShadow: isActive ? `0 0 15px ${step.character.glowColor}` : 'none'
-                        }}
-                        animate={isActive ? {
-                          scale: [1, 1.3, 1],
-                        } : {}}
-                        transition={{ 
-                          duration: 2,
-                          repeat: isActive ? Infinity : 0,
-                          repeatType: "reverse"
-                        }}
-                      />
-                      
-                      {/* Step content */}
-                      <div className="w-full md:w-1/2 mb-6 md:mb-0 px-6">
-                        <motion.div 
-                          className={`bg-gray-800 bg-opacity-60 p-6 rounded-xl shadow-lg ${isActive ? 'border' : ''}`}
-                          style={{ borderColor: isActive ? step.character.glowColor : 'transparent' }}
-                          initial={{ x: isEven ? -50 : 50, opacity: 0 }}
-                          whileInView={{ x: 0, opacity: 1 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.8 }}
-                        >
-                          <div 
-                            className="w-16 h-16 rounded-full flex items-center justify-center mb-4 mx-auto md:mx-0"
-                            style={{ backgroundColor: `${step.character.glowColor}30` }}
-                          >
-                            <div style={{ color: step.character.glowColor }}>
-                              {step.icon}
-                            </div>
-                          </div>
-                          <h3 
-                            className="text-2xl font-bold mb-2 text-center md:text-left"
-                            style={{ color: isActive ? step.character.glowColor : 'white' }}
-                          >
-                            {step.phase}
-                          </h3>
-                          <p className="text-gray-300 text-center md:text-left">{step.description}</p>
-                          
-                          {/* Character quote */}
-                          {isActive && (
-                            <motion.div 
-                              className="mt-4 p-4 bg-gray-700 bg-opacity-50 rounded-lg border-l-4"
-                              style={{ borderColor: step.character.glowColor }}
-                              initial={{ opacity: 0 }}
-                              animate={{ opacity: 1 }}
-                              transition={{ delay: 0.3, duration: 0.5 }}
-                            >
-                              <p className="text-sm italic">"{step.character.funnyPhrase}"</p>
-                              <p className="text-xs text-gray-400">{step.character.phraseTranslation}</p>
-                            </motion.div>
-                          )}
-                        </motion.div>
-                      </div>
-                      
-                      {/* Character visualization */}
-                      <div className="w-full md:w-1/2 px-6 flex justify-center md:justify-start">
-                        <AnimatePresence>
-                          {isActive && (
-                            <motion.div 
-                              className="relative w-48 h-64"
-                              initial={{ opacity: 0, y: 50, scale: 0.8 }}
-                              animate={{ 
-                                opacity: 1, 
-                                y: 0, 
-                                scale: 1,
-                                transition: { type: "spring", stiffness: 100, damping: 10, delay: 0.2 }
-                              }}
-                              exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.3 } }}
-                            >
-                              {/* Character image */}
-                              <img 
-                                src={step.character.imagePath} 
-                                alt={step.character.name} 
-                                className="w-full h-full object-contain z-10 relative character-entrance"
-                                style={{ filter: `drop-shadow(0 0 15px ${step.character.glowColor})` }}
-                              />
-                              
-                              {/* Service visualization */}
-                              <motion.div 
-                                className="absolute -top-10 left-1/2 transform -translate-x-1/2 text-center z-20"
-                                initial={{ opacity: 0, y: -20 }}
-                                animate={{ 
-                                  opacity: 1, 
-                                  y: 0,
-                                  transition: { delay: 0.8, duration: 0.5 }
-                                }}
-                              >
-                                <div 
-                                  className="inline-flex items-center justify-center p-4 rounded-full mb-2"
-                                  style={{ backgroundColor: `${step.character.glowColor}40` }}
-                                >
-                                  <Zap size={20} style={{ color: step.character.glowColor }} />
-                                </div>
-                                <div 
-                                  className="text-lg font-bold service-rise"
-                                  style={{ color: step.character.glowColor }}
-                                >
-                                  {step.character.service}
-                                </div>
-                              </motion.div>
-                              
-                              {/* Glowing base */}
-                              <motion.div 
-                                className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-32 h-6 rounded-full blur-xl"
-                                style={{ backgroundColor: step.character.glowColor }}
-                                animate={{ 
-                                  opacity: [0.5, 0.8, 0.5],
-                                  scale: [1, 1.2, 1]
-                                }}
-                                transition={{ 
-                                  duration: 2,
-                                  repeat: Infinity,
-                                  repeatType: "reverse"
-                                }}
-                              />
-                              
-                              {/* Character name */}
-                              <motion.p 
-                                className="absolute bottom-0 left-1/2 transform -translate-x-1/2 font-bold text-center whitespace-nowrap"
-                                style={{ color: step.character.glowColor }}
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 1, duration: 0.5 }}
-                              >
-                                {step.character.name}
-                              </motion.p>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-        
-        {/* Team Assembly - Avengers Style */}
-        <section className="py-24 px-4 relative bg-black">
-          <div className="absolute inset-0 -z-10">
-            {/* Radial gradient background */}
-            <div className="absolute inset-0 bg-gradient-radial"></div>
-            
-            {/* Character glow effects */}
-            {characters.map((character, index) => (
-              <motion.div
-                key={index}
-                className="absolute rounded-full blur-3xl opacity-20"
-                style={{ 
-                  backgroundColor: character.glowColor,
-                  width: '280px',
-                  height: '280px',
-                  left: `${(index * 15) + 10}%`,
-                  bottom: `${(index % 3) * 10 + 10}%`,
+                key={i}
+                className="absolute w-1 bg-gradient-to-b from-transparent via-white to-transparent"
+                style={{
+                  left: `${(i * 5) % 100}%`,
+                  height: '100%',
                 }}
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ 
-                  opacity: showTeam ? 0.2 : 0,
-                  scale: showTeam ? 1 : 0.5
+                animate={{
+                  opacity: [0, 1, 0],
+                  scaleY: [0, 1, 0]
                 }}
-                transition={{ duration: 1.5, delay: index * 0.1 + 0.5 }}
+                transition={{
+                  duration: 3,
+                  delay: i * 0.2,
+                  repeat: Infinity,
+                  repeatDelay: 2
+                }}
               />
             ))}
           </div>
-          
-          <div className="container mx-auto text-center mb-10">
-            <motion.h2 
-              className="text-4xl font-bold mb-8"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
+        </div>
+        
+        {/* 3D Rickshaw Bot Entry */}
+        <motion.div
+          className="absolute right-10 top-1/2 transform -translate-y-1/2 z-20"
+          initial={{ x: 300, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 2, type: "spring", stiffness: 100 }}
+        >
+          <div className="relative">
+            {/* Rickshaw Bot */}
+            <motion.div
+              className="w-32 h-32 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center shadow-2xl"
+              animate={{
+                y: [0, -10, 0],
+                rotateY: [0, 5, 0, -5, 0]
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                repeatType: "reverse"
+              }}
             >
-              The <span style={{ color: accentColor }}>Superhero</span> Team Assembly
-            </motion.h2>
+              <Truck size={60} className="text-white" />
+            </motion.div>
             
+            {/* Flickering Headlights */}
+            <motion.div
+              className="absolute -left-4 top-6 w-3 h-3 bg-yellow-300 rounded-full"
+              animate={{
+                opacity: [0.5, 1, 0.5],
+                scale: [0.8, 1.2, 0.8]
+              }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                repeatType: "reverse"
+              }}
+            />
+            <motion.div
+              className="absolute -left-4 bottom-6 w-3 h-3 bg-yellow-300 rounded-full"
+              animate={{
+                opacity: [1, 0.5, 1],
+                scale: [1.2, 0.8, 1.2]
+              }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                repeatType: "reverse"
+              }}
+            />
+          </div>
+        </motion.div>
+        
+        {/* Hero Content */}
+        <div className="container mx-auto px-4 z-10 text-center">
+          <motion.h1 
+            className="font-black text-4xl md:text-6xl lg:text-8xl mb-8 leading-tight"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.5 }}
+          >
+            <motion.span
+              className="block"
+              style={{ color: accentColor }}
+              animate={{
+                textShadow: [
+                  `0 0 20px ${accentColor}`,
+                  `0 0 40px ${accentColor}`,
+                  `0 0 20px ${accentColor}`
+                ]
+              }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              THIS IS HOW
+            </motion.span>
+            <motion.span
+              className="block text-white"
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1, delay: 1 }}
+            >
+              AI WALA BUILDS
+            </motion.span>
+            <motion.span
+              className="block"
+              style={{ color: accentColor }}
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1, delay: 1.5 }}
+            >
+              YOUR BRAND
+            </motion.span>
+          </motion.h1>
+          
+          <motion.p
+            className="text-2xl md:text-3xl text-gray-300 mb-12 font-light"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 2 }}
+          >
+            One bot. Endless superpowers.
+          </motion.p>
+          
+          {/* Animated Scroll Cue */}
+          <motion.div
+            className="flex flex-col items-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 2.5 }}
+          >
+            <motion.div
+              animate={{
+                y: [0, 15, 0],
+                opacity: [0.7, 1, 0.7]
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                repeatType: "reverse"
+              }}
+            >
+              <ArrowDown size={40} style={{ color: accentColor }} />
+            </motion.div>
+            <p className="text-gray-400 mt-2">Scroll to see the magic</p>
+          </motion.div>
+        </div>
+      </section>
+      
+      {/* Team Assembly Sequence */}
+      <section ref={timelineRef} className="py-20 px-4 relative">
+        {/* Sticky Progress Bar */}
+        <motion.div 
+          className="fixed top-20 left-0 right-0 z-50 bg-black bg-opacity-80 py-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 3 }}
+        >
+          <div className="container mx-auto px-4">
+            <div className="flex items-center justify-between">
+              <p className="text-sm text-gray-300">
+                Stage {currentStage + 1} of {botSpecialists.length}
+              </p>
+              <div className="flex-1 mx-4 bg-gray-700 h-2 rounded-full">
+                <motion.div
+                  className="h-full rounded-full"
+                  style={{ backgroundColor: accentColor }}
+                  animate={{ width: `${((currentStage + 1) / botSpecialists.length) * 100}%` }}
+                  transition={{ duration: 0.5 }}
+                />
+              </div>
+              <p className="text-sm text-gray-300">Team Assembly</p>
+            </div>
+          </div>
+        </motion.div>
+        
+        <div className="container mx-auto max-w-6xl mt-20">
+          <div className="text-center mb-16">
+            <motion.h2 
+              className="text-5xl font-black mb-6"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              Meet Your <span style={{ color: accentColor }}>AI Super Team</span>
+            </motion.h2>
             <motion.p 
-              className="text-xl text-gray-300 max-w-3xl mx-auto mb-16"
+              className="text-xl text-gray-300"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              transition={{ delay: 0.2 }}
             >
-              When our AI characters join forces, they create an unstoppable team that delivers extraordinary results
+              Seven specialized bots working in perfect harmony to build your brand
             </motion.p>
           </div>
           
-          <div className="container mx-auto max-w-6xl">
-            {/* Avengers-style team formation */}
-            <div className="relative h-[500px] md:h-[600px]">
-              {/* Central character - hero position */}
+          {/* Horizontal Timeline */}
+          <div className="relative">
+            {/* Timeline Line */}
+            <div className="absolute top-1/2 left-0 right-0 h-1 bg-gray-700 transform -translate-y-1/2">
               <motion.div
-                className="absolute left-1/2 transform -translate-x-1/2 bottom-0 z-30 character-element w-48 md:w-64"
-                initial={{ opacity: 0, y: 100 }}
-                animate={{ 
-                  opacity: showTeam ? 1 : 0,
-                  y: showTeam ? 0 : 100
-                }}
-                transition={{ 
-                  type: "spring",
-                  stiffness: 100,
-                  damping: 15,
-                  delay: 0.3
-                }}
-              >
-                <img 
-                  src={characters[2].imagePath} 
-                  alt={characters[2].name} 
-                  className="w-full h-auto"
-                  style={{ filter: `drop-shadow(0 0 15px ${characters[2].glowColor})` }}
-                />
-                <div 
-                  className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-32 h-6 rounded-full blur-xl"
-                  style={{ backgroundColor: characters[2].glowColor }}
-                />
-                <p 
-                  className="text-lg font-bold mt-2"
-                  style={{ color: characters[2].glowColor }}
-                >
-                  {characters[2].name}
-                </p>
-              </motion.div>
-              
-              {/* Left side characters */}
-              <motion.div
-                className="absolute left-[10%] md:left-[15%] bottom-10 z-20 character-element w-36 md:w-48"
-                initial={{ opacity: 0, x: -100 }}
-                animate={{ 
-                  opacity: showTeam ? 1 : 0,
-                  x: showTeam ? 0 : -100
-                }}
-                transition={{ 
-                  type: "spring",
-                  stiffness: 100,
-                  damping: 15,
-                  delay: 0.5
-                }}
-              >
-                <img 
-                  src={characters[0].imagePath} 
-                  alt={characters[0].name} 
-                  className="w-full h-auto"
-                  style={{ filter: `drop-shadow(0 0 10px ${characters[0].glowColor})` }}
-                />
-                <div 
-                  className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-4 rounded-full blur-lg"
-                  style={{ backgroundColor: characters[0].glowColor }}
-                />
-                <p 
-                  className="text-base font-bold mt-2"
-                  style={{ color: characters[0].glowColor }}
-                >
-                  {characters[0].name}
-                </p>
-              </motion.div>
-              
-              <motion.div
-                className="absolute left-[25%] bottom-20 z-10 character-element w-32 md:w-40"
-                initial={{ opacity: 0, x: -80, y: 80 }}
-                animate={{ 
-                  opacity: showTeam ? 1 : 0,
-                  x: showTeam ? 0 : -80,
-                  y: showTeam ? 0 : 80
-                }}
-                transition={{ 
-                  type: "spring",
-                  stiffness: 100,
-                  damping: 15,
-                  delay: 0.7
-                }}
-              >
-                <img 
-                  src={characters[3].imagePath} 
-                  alt={characters[3].name} 
-                  className="w-full h-auto"
-                  style={{ filter: `drop-shadow(0 0 8px ${characters[3].glowColor})` }}
-                />
-                <div 
-                  className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-3 rounded-full blur-lg"
-                  style={{ backgroundColor: characters[3].glowColor }}
-                />
-                <p 
-                  className="text-sm font-bold mt-2"
-                  style={{ color: characters[3].glowColor }}
-                >
-                  {characters[3].name}
-                </p>
-              </motion.div>
-              
-              {/* Right side characters */}
-              <motion.div
-                className="absolute right-[10%] md:right-[15%] bottom-10 z-20 character-element w-36 md:w-48"
-                initial={{ opacity: 0, x: 100 }}
-                animate={{ 
-                  opacity: showTeam ? 1 : 0,
-                  x: showTeam ? 0 : 100
-                }}
-                transition={{ 
-                  type: "spring",
-                  stiffness: 100,
-                  damping: 15,
-                  delay: 0.5
-                }}
-              >
-                <img 
-                  src={characters[1].imagePath} 
-                  alt={characters[1].name} 
-                  className="w-full h-auto"
-                  style={{ filter: `drop-shadow(0 0 10px ${characters[1].glowColor})` }}
-                />
-                <div 
-                  className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-4 rounded-full blur-lg"
-                  style={{ backgroundColor: characters[1].glowColor }}
-                />
-                <p 
-                  className="text-base font-bold mt-2"
-                  style={{ color: characters[1].glowColor }}
-                >
-                  {characters[1].name}
-                </p>
-              </motion.div>
-              
-              <motion.div
-                className="absolute right-[25%] bottom-20 z-10 character-element w-32 md:w-40"
-                initial={{ opacity: 0, x: 80, y: 80 }}
-                animate={{ 
-                  opacity: showTeam ? 1 : 0,
-                  x: showTeam ? 0 : 80,
-                  y: showTeam ? 0 : 80
-                }}
-                transition={{ 
-                  type: "spring",
-                  stiffness: 100,
-                  damping: 15,
-                  delay: 0.7
-                }}
-              >
-                <img 
-                  src={characters[4].imagePath} 
-                  alt={characters[4].name} 
-                  className="w-full h-auto"
-                  style={{ filter: `drop-shadow(0 0 8px ${characters[4].glowColor})` }}
-                />
-                <div 
-                  className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-3 rounded-full blur-lg"
-                  style={{ backgroundColor: characters[4].glowColor }}
-                />
-                <p 
-                  className="text-sm font-bold mt-2"
-                  style={{ color: characters[4].glowColor }}
-                >
-                  {characters[4].name}
-                </p>
-              </motion.div>
-              
-              {/* Far back character */}
-              <motion.div
-                className="absolute left-1/2 transform -translate-x-1/2 bottom-0 translate-y-5 z-5 character-element w-28 md:w-36"
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ 
-                  opacity: showTeam ? 0.8 : 0,
-                  y: showTeam ? 0 : 40
-                }}
-                transition={{ 
-                  type: "spring",
-                  stiffness: 100,
-                  damping: 15,
-                  delay: 0.9
-                }}
-              >
-                <img 
-                  src={characters[5].imagePath} 
-                  alt={characters[5].name} 
-                  className="w-full h-auto opacity-80"
-                  style={{ filter: `drop-shadow(0 0 6px ${characters[5].glowColor})` }}
-                />
-                <div 
-                  className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-2 rounded-full blur-md"
-                  style={{ backgroundColor: characters[5].glowColor }}
-                />
-                <p 
-                  className="text-xs font-bold mt-1"
-                  style={{ color: characters[5].glowColor }}
-                >
-                  {characters[5].name}
-                </p>
-              </motion.div>
-              
-              {/* Energy connecting lines between characters */}
-              {showTeam && characters.map((_, i) => {
-                if (i === 2 || i > 4) return null; // Skip center character and extra characters
+                className="h-full rounded-full"
+                style={{ backgroundColor: accentColor }}
+                animate={{ width: `${((currentStage + 1) / botSpecialists.length) * 100}%` }}
+                transition={{ duration: 0.8 }}
+              />
+            </div>
+            
+            {/* Bot Specialists */}
+            <div className="grid grid-cols-1 md:grid-cols-7 gap-8 py-16">
+              {botSpecialists.map((bot, index) => {
+                const isActive = currentStage >= index;
+                const isCurrent = currentStage === index;
                 
-                // Connect to center character
                 return (
                   <motion.div
-                    key={`line-${i}`}
-                    className="absolute left-1/2 top-1/2 h-1 bg-gradient-to-r z-0"
-                    style={{
-                      width: i % 2 === 0 ? '25%' : '30%',
-                      transformOrigin: i % 2 === 0 ? 'left center' : 'right center',
-                      transform: `translate(-50%, -50%) rotate(${i % 2 === 0 ? -25 - (i * 10) : 25 + ((i-1) * 10)}deg)`,
-                      background: `linear-gradient(to ${i % 2 === 0 ? 'left' : 'right'}, ${accentColor}, transparent)`,
+                    key={bot.id}
+                    className="relative text-center"
+                    initial={{ opacity: 0, y: 50, scale: 0.8 }}
+                    animate={{
+                      opacity: isActive ? 1 : 0.3,
+                      y: isActive ? 0 : 50,
+                      scale: isCurrent ? 1.1 : isActive ? 1 : 0.8
                     }}
-                    initial={{ opacity: 0, scaleX: 0 }}
-                    animate={{ opacity: 0.7, scaleX: 1 }}
-                    transition={{ duration: 0.8, delay: 1.2 + (i * 0.1) }}
-                  />
+                    transition={{
+                      duration: 0.8,
+                      type: "spring",
+                      stiffness: 100
+                    }}
+                  >
+                    {/* Bot Icon */}
+                    <div 
+                      className="relative w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center shadow-lg"
+                      style={{ 
+                        backgroundColor: isActive ? `${bot.color}20` : 'gray',
+                        border: `3px solid ${isActive ? bot.color : 'gray'}`,
+                        boxShadow: isCurrent ? `0 0 30px ${bot.color}` : 'none'
+                      }}
+                    >
+                      <div style={{ color: isActive ? bot.color : 'gray' }}>
+                        {bot.icon}
+                      </div>
+                      
+                      {/* Active Animation Ring */}
+                      {isCurrent && (
+                        <motion.div
+                          className="absolute inset-0 rounded-full border-2"
+                          style={{ borderColor: bot.color }}
+                          animate={{
+                            scale: [1, 1.3, 1],
+                            opacity: [0.8, 0, 0.8]
+                          }}
+                          transition={{
+                            duration: 2,
+                            repeat: Infinity,
+                            repeatType: "reverse"
+                          }}
+                        />
+                      )}
+                    </div>
+                    
+                    {/* Bot Info */}
+                    <h3 
+                      className="font-bold text-lg mb-2"
+                      style={{ color: isActive ? bot.color : 'gray' }}
+                    >
+                      {bot.name}
+                    </h3>
+                    <p className="text-sm text-gray-400 mb-4">{bot.description}</p>
+                    
+                    {/* Detailed Info (appears when current) */}
+                    <AnimatePresence>
+                      {isCurrent && (
+                        <motion.div
+                          className="absolute -bottom-16 left-1/2 transform -translate-x-1/2 w-64 p-4 rounded-lg shadow-xl z-20"
+                          style={{ backgroundColor: `${bot.color}10`, border: `1px solid ${bot.color}30` }}
+                          initial={{ opacity: 0, y: -20, scale: 0.8 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: -20, scale: 0.8 }}
+                          transition={{ duration: 0.5 }}
+                        >
+                          <p className="text-sm text-gray-300">{bot.details}</p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
                 );
               })}
-              
-              {/* Team power surge effect */}
-              {showTeam && (
-                <motion.div
-                  className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full"
-                  style={{ 
-                    background: `radial-gradient(circle, ${accentColor}50 0%, transparent 70%)` 
-                  }}
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{ 
-                    opacity: [0, 0.7, 0],
-                    scale: [0, 1.5, 0.8]
-                  }}
-                  transition={{ 
-                    duration: 2,
-                    delay: 1.5,
-                    repeat: Infinity,
-                    repeatDelay: 3
-                  }}
-                />
-              )}
             </div>
           </div>
+        </div>
+      </section>
+      
+      {/* Superpower Showcase */}
+      <section ref={showcaseRef} className="py-20 px-4 relative bg-gradient-to-b from-black to-gray-900">
+        {/* Parallax Background Effects */}
+        <div className="absolute inset-0 overflow-hidden">
+          {[...Array(15)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute opacity-10"
+              style={{
+                left: `${(i * 7) % 100}%`,
+                top: `${(i * 13) % 100}%`,
+                width: '2px',
+                height: '100px',
+                background: 'linear-gradient(to bottom, transparent, white, transparent)',
+              }}
+              animate={{
+                y: [0, -50, 0],
+                opacity: [0.1, 0.3, 0.1]
+              }}
+              transition={{
+                duration: 4 + (i % 3),
+                delay: i * 0.5,
+                repeat: Infinity,
+                repeatType: "reverse"
+              }}
+            />
+          ))}
+        </div>
+        
+        <div className="container mx-auto max-w-6xl relative z-10">
+          <div className="text-center mb-16">
+            <motion.h2 
+              className="text-5xl font-black mb-6"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <span style={{ color: accentColor }}>Superpowers</span> In Action
+            </motion.h2>
+            <motion.p 
+              className="text-xl text-gray-300"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+            >
+              Each service delivered with AI precision and superhuman speed
+            </motion.p>
+          </div>
           
-          {/* Team capabilities */}
-          <div className="container mx-auto mt-16">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
-              {[
-                {
-                  icon: <Shield className="mb-2" size={32} />,
-                  title: "Team Synergy",
-                  desc: "Our AI characters work together seamlessly, combining their unique abilities"
-                },
-                {
-                  icon: <Star className="mb-2" size={32} />,
-                  title: "Superhero Speed",
-                  desc: "Deliver projects at superhuman speed with our AI-powered team"
-                },
-                {
-                  icon: <Zap className="mb-2" size={32} />,
-                  title: "Unlimited Power",
-                  desc: "AI never tires, never sleeps, and delivers consistently perfect results"
-                }
-              ].map((item, i) => (
-                <motion.div 
-                  key={i}
-                  className="bg-gray-800 bg-opacity-50 p-6 rounded-xl text-center"
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.2 * i, duration: 0.7 }}
+          {/* Service Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {serviceCards.map((service, index) => (
+              <motion.div
+                key={index}
+                className="relative h-64 perspective-1000"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{
+                  opacity: visibleCards.includes(index) ? 1 : 0,
+                  y: visibleCards.includes(index) ? 0 : 50
+                }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+              >
+                <motion.div
+                  className="relative w-full h-full preserve-3d cursor-pointer"
+                  whileHover={{ rotateY: 180 }}
+                  transition={{ duration: 0.8 }}
                 >
-                  <div className="flex justify-center" style={{ color: accentColor }}>
-                    {item.icon}
+                  {/* Front Side */}
+                  <div 
+                    className="absolute inset-0 w-full h-full rounded-xl p-6 flex flex-col items-center justify-center shadow-xl backface-hidden"
+                    style={{ 
+                      background: `linear-gradient(135deg, ${service.color}20, ${service.color}10)`,
+                      border: `2px solid ${service.color}30`
+                    }}
+                  >
+                    <div style={{ color: service.color }} className="mb-4">
+                      {service.frontIcon}
+                    </div>
+                    <h3 className="text-xl font-bold text-white">{service.title}</h3>
                   </div>
-                  <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                  <p className="text-gray-300">{item.desc}</p>
+                  
+                  {/* Back Side */}
+                  <div 
+                    className="absolute inset-0 w-full h-full rounded-xl p-6 flex items-center justify-center shadow-xl backface-hidden rotate-y-180"
+                    style={{ 
+                      background: `linear-gradient(135deg, ${service.color}40, ${service.color}20)`,
+                      border: `2px solid ${service.color}`
+                    }}
+                  >
+                    <p className="text-white text-center font-medium">{service.backDetails}</p>
+                  </div>
                 </motion.div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+      
+      {/* Interactive Timeline Demo */}
+      <section className="py-20 px-4 bg-gray-900">
+        <div className="container mx-auto max-w-4xl">
+          <div className="text-center mb-16">
+            <motion.h2 
+              className="text-5xl font-black mb-6"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              How It All <span style={{ color: accentColor }}>Fits Together</span>
+            </motion.h2>
+          </div>
+          
+          {/* Tab Navigation */}
+          <div className="flex justify-center mb-8">
+            <div className="flex bg-gray-800 rounded-lg p-2">
+              {timelineTabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTimelineTab(tab.id)}
+                  className={`px-6 py-3 rounded-lg font-medium transition-all ${
+                    activeTimelineTab === tab.id 
+                      ? 'text-white shadow-lg' 
+                      : 'text-gray-400 hover:text-white'
+                  }`}
+                  style={{
+                    backgroundColor: activeTimelineTab === tab.id ? accentColor : 'transparent'
+                  }}
+                >
+                  {tab.label}
+                </button>
               ))}
             </div>
           </div>
-        </section>
-        
-        {/* Call to Action - Punjabi Style */}
-        <section className="py-16 px-4 bg-gradient-to-t from-gray-900 to-black">
-          <div className="container mx-auto text-center">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="max-w-2xl mx-auto bg-gray-800 bg-opacity-70 rounded-xl p-8 border relative overflow-hidden"
-              style={{ borderColor: accentColor }}
-            >
-              <motion.div
-                className="absolute -top-10 -right-10 w-40 h-40 text-yellow-400 opacity-30"
-                animate={{
-                  rotate: [0, 360],
-                }}
-                transition={{ 
-                  duration: 30,
-                  repeat: Infinity,
-                  ease: "linear"
-                }}
-              >
-                <Sparkles size={80} />
-              </motion.div>
+          
+          {/* Timeline Scene */}
+          <div className="bg-black rounded-xl p-8 h-64 flex items-center justify-center relative overflow-hidden">
+            <AnimatePresence mode="wait">
+              {activeTimelineTab === 'start' && (
+                <motion.div
+                  key="start"
+                  className="text-center"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <div className="w-24 h-24 bg-gray-700 rounded-xl mx-auto mb-4 flex items-center justify-center">
+                    <Truck size={40} className="text-gray-400" />
+                  </div>
+                  <p className="text-gray-300">Your journey begins here</p>
+                  <p className="text-sm text-gray-500 mt-2">{new Date().toLocaleDateString()}</p>
+                </motion.div>
+              )}
               
-              <motion.h3 
-                className="text-3xl font-bold mb-4 relative" 
-                style={{ color: accentColor }}
-                initial={{ y: 20, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2, duration: 0.8 }}
-              >
-                <span className="relative inline-block">
-                  "Paa Ji Je Nhi Samjhy Ty Call Krlaiye!"
+              {activeTimelineTab === 'questionnaire' && (
+                <motion.div
+                  key="questionnaire"
+                  className="w-full max-w-md"
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -50 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <div className="space-y-4">
+                    <div className="bg-gray-800 rounded-lg p-4">
+                      <motion.div
+                        className="text-gray-300"
+                        animate={{ opacity: [0, 1] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      >
+                        Business Type: <span style={{ color: accentColor }}>E-commerce</span>
+                      </motion.div>
+                    </div>
+                    <div className="bg-gray-800 rounded-lg p-4">
+                      <motion.div
+                        className="text-gray-300"
+                        animate={{ opacity: [0, 1] }}
+                        transition={{ duration: 2, delay: 0.5, repeat: Infinity }}
+                      >
+                        Budget: <span style={{ color: accentColor }}>$5,000 - $10,000</span>
+                      </motion.div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+              
+              {activeTimelineTab === 'design' && (
+                <motion.div
+                  key="design"
+                  className="flex items-center space-x-4"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -30 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  {botSpecialists.slice(0, 4).map((bot, i) => (
+                    <motion.div
+                      key={bot.id}
+                      className="w-16 h-16 rounded-full flex items-center justify-center"
+                      style={{ backgroundColor: `${bot.color}30`, border: `2px solid ${bot.color}` }}
+                      animate={{
+                        scale: [1, 1.2, 1],
+                        rotate: [0, 180, 360]
+                      }}
+                      transition={{
+                        duration: 2,
+                        delay: i * 0.3,
+                        repeat: Infinity,
+                        repeatDelay: 1
+                      }}
+                    >
+                      <div style={{ color: bot.color }}>{bot.icon}</div>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              )}
+              
+              {activeTimelineTab === 'launch' && (
+                <motion.div
+                  key="launch"
+                  className="text-center"
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.5 }}
+                  transition={{ duration: 0.5 }}
+                >
                   <motion.div
-                    className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-transparent via-white to-transparent w-full"
-                    initial={{ scaleX: 0, opacity: 0 }}
-                    whileInView={{ scaleX: 1, opacity: 0.8 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 1, duration: 1 }}
-                  />
-                </span>
-              </motion.h3>
-              
-              <motion.p 
-                className="text-lg text-gray-300 mb-8"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.6, duration: 0.8 }}
-              >
-                (If you didn't understand brother, just give us a call!)
-              </motion.p>
-              
-              <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <motion.div
-                  initial={{ x: -30, opacity: 0 }}
-                  whileInView={{ x: 0, opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.8, duration: 0.5 }}
-                >
-                  <Link 
-                    to="/contact" 
-                    className="px-6 py-3 rounded-lg text-lg font-bold transition-all hover:scale-105 block"
-                    style={{ backgroundColor: accentColor }}
+                    animate={{
+                      scale: [1, 1.2, 1],
+                    }}
+                    transition={{
+                      duration: 1,
+                      repeat: Infinity,
+                      repeatType: "reverse"
+                    }}
                   >
-                    Contact Us Now
-                  </Link>
-                </motion.div>
-                
-                <motion.div
-                  initial={{ x: 30, opacity: 0 }}
-                  whileInView={{ x: 0, opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 1, duration: 0.5 }}
-                >
-                  <Link
-                    to="/characters"
-                    className="px-6 py-3 rounded-lg text-lg font-bold border-2 transition-all hover:bg-gray-700 block"
-                    style={{ borderColor: accentColor, color: accentColor }}
+                    <Star size={60} style={{ color: accentColor }} />
+                  </motion.div>
+                  <motion.h3
+                    className="text-2xl font-bold mt-4"
+                    style={{ color: accentColor }}
+                    animate={{
+                      opacity: [0.7, 1, 0.7]
+                    }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      repeatType: "reverse"
+                    }}
                   >
-                    Meet The Characters <ArrowRight className="inline ml-1" size={18} />
-                  </Link>
+                    YOUR BRAND IS LIVE!
+                  </motion.h3>
+                  {/* Fireworks Effect */}
+                  {[...Array(8)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="absolute w-2 h-2 rounded-full"
+                      style={{ 
+                        backgroundColor: accentColor,
+                        left: '50%',
+                        top: '50%'
+                      }}
+                      animate={{
+                        x: [0, (Math.cos(i * 45 * Math.PI / 180) * 100)],
+                        y: [0, (Math.sin(i * 45 * Math.PI / 180) * 100)],
+                        opacity: [1, 0],
+                        scale: [1, 0]
+                      }}
+                      transition={{
+                        duration: 1.5,
+                        delay: i * 0.1,
+                        repeat: Infinity,
+                        repeatDelay: 2
+                      }}
+                    />
+                  ))}
                 </motion.div>
-              </div>
-            </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-        </section>
-      </main>
+        </div>
+      </section>
+      
+      {/* Enhanced CTA Section */}
+      <section className="py-20 px-4 bg-gradient-to-t from-gray-900 to-black relative overflow-hidden">
+        {/* 3D Rickshaw Animation Background */}
+        <div className="absolute inset-0 flex items-center justify-center opacity-20">
+          <motion.div
+            animate={{
+              rotate: [0, 360]
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            className="relative"
+          >
+            {/* City landmarks around rickshaw */}
+            {['Brand', 'Web', 'Social', 'Video'].map((landmark, i) => {
+              const angle = (i * 90) * Math.PI / 180;
+              const radius = 200;
+              return (
+                <motion.div
+                  key={landmark}
+                  className="absolute w-16 h-16 rounded-lg bg-gray-700 flex items-center justify-center text-xs font-bold"
+                  style={{
+                    left: Math.cos(angle) * radius,
+                    top: Math.sin(angle) * radius,
+                  }}
+                  animate={{
+                    rotate: [0, -360]
+                  }}
+                  transition={{
+                    duration: 20,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                >
+                  {landmark}
+                </motion.div>
+              );
+            })}
+            
+            {/* Central Rickshaw */}
+            <div className="w-24 h-24 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center">
+              <Truck size={40} className="text-white" />
+            </div>
+          </motion.div>
+        </div>
+        
+        <div className="container mx-auto max-w-2xl text-center relative z-10">
+          <motion.h2 
+            className="text-5xl font-black mb-6"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            Ready to <span style={{ color: accentColor }}>Roll?</span>
+          </motion.h2>
+          
+          <motion.p
+            className="text-xl text-gray-300 mb-8"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+          >
+            Tell us your business size & we'll quote instantly.
+          </motion.p>
+          
+          <motion.div
+            className="space-y-4"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+          >
+            <Link
+              to="/contact"
+              className="inline-block px-8 py-4 rounded-lg text-lg font-bold transition-all hover:scale-105 relative overflow-hidden"
+              style={{ 
+                background: `linear-gradient(45deg, ${accentColor}, ${accentColor}80)`
+              }}
+            >
+              <motion.span
+                className="relative z-10"
+                animate={{
+                  textShadow: [
+                    '0 0 10px rgba(255,255,255,0.5)',
+                    '0 0 20px rgba(255,255,255,0.8)',
+                    '0 0 10px rgba(255,255,255,0.5)'
+                  ]
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  repeatType: "reverse"
+                }}
+              >
+                Get My Quote →
+              </motion.span>
+              
+              {/* Animated background gradient */}
+              <motion.div
+                className="absolute inset-0 opacity-30"
+                animate={{
+                  background: [
+                    `linear-gradient(45deg, ${accentColor}, transparent)`,
+                    `linear-gradient(45deg, transparent, ${accentColor})`,
+                    `linear-gradient(45deg, ${accentColor}, transparent)`
+                  ]
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  repeatType: "reverse"
+                }}
+              />
+            </Link>
+            
+            <div className="text-center">
+              <p className="text-gray-400 text-lg">
+                "Paa Ji Je Nhi Samjhy Ty Call Krlaiye!"
+              </p>
+              <p className="text-gray-500 text-sm mt-2">
+                (If you didn't understand brother, just give us a call!)
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
       
       <Footer />
     </div>

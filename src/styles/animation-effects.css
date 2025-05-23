@@ -63,3 +63,177 @@
 .animate-bounce-in {
   animation: bounce-in 0.8s ease-out;
 }
+
+/* 3D Transform utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* Magical portal effect */
+@keyframes portal-appear {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(0deg);
+    filter: blur(10px);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.2) rotate(180deg);
+    filter: blur(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(360deg);
+    filter: blur(0px);
+  }
+}
+
+.portal-entrance {
+  animation: portal-appear 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Sparkle animation */
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1) rotate(180deg);
+  }
+}
+
+.sparkle-effect {
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+/* Magical materialization */
+@keyframes magic-materialize {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotateY(0deg);
+    filter: blur(20px) brightness(3);
+  }
+  30% {
+    opacity: 0.7;
+    transform: scale(0.8) rotateY(120deg);
+    filter: blur(10px) brightness(2);
+  }
+  60% {
+    opacity: 0.9;
+    transform: scale(1.1) rotateY(240deg);
+    filter: blur(5px) brightness(1.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotateY(360deg);
+    filter: blur(0px) brightness(1);
+  }
+}
+
+.magic-entrance {
+  animation: magic-materialize 2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Enhanced glow effects */
+.enhanced-glow {
+  box-shadow: 0 0 20px currentColor, 0 0 40px currentColor, 0 0 60px currentColor;
+}
+
+/* Wizard-style entrance for characters */
+@keyframes wizard-entrance {
+  0% {
+    opacity: 0;
+    transform: translateY(100px) scale(0.3) rotateZ(-180deg);
+    filter: blur(15px);
+  }
+  25% {
+    opacity: 0.5;
+    transform: translateY(50px) scale(0.6) rotateZ(-90deg);
+    filter: blur(10px);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateY(20px) scale(0.9) rotateZ(-45deg);
+    filter: blur(5px);
+  }
+  75% {
+    opacity: 0.95;
+    transform: translateY(-10px) scale(1.05) rotateZ(0deg);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotateZ(0deg);
+    filter: blur(0px);
+  }
+}
+
+.wizard-style-entrance {
+  animation: wizard-entrance 1.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Character hover magic aura */
+@keyframes magic-aura {
+  0%, 100% {
+    box-shadow: 0 0 10px currentColor;
+  }
+  25% {
+    box-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
+  }
+  50% {
+    box-shadow: 0 0 30px currentColor, 0 0 50px currentColor, 0 0 70px currentColor;
+  }
+  75% {
+    box-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
+  }
+}
+
+.magic-aura-hover:hover {
+  animation: magic-aura 2s ease-in-out infinite;
+}
+
+/* 3D text effects */
+.text-3d {
+  text-shadow: 
+    1px 1px 0px #ccc,
+    2px 2px 0px #ccc,
+    3px 3px 0px #ccc,
+    4px 4px 5px rgba(0,0,0,0.3);
+  transform: rotateX(15deg) rotateY(5deg);
+}
+
+/* Dynamic gradient text */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.gradient-text-animate {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradient-shift 3s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
