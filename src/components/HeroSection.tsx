@@ -51,22 +51,22 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   };
 
   return (
-    <section className="relative min-h-[80vh] flex items-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-white to-gray-100 z-0"></div>
       
       {/* Circuit pattern overlay */}
       <div className="absolute inset-0 opacity-[0.03] z-0 bg-[url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5')] bg-repeat bg-center"></div>
       
-      <div className="container mx-auto px-4 z-10 py-16">
-        <div className="max-w-4xl mx-auto text-center space-y-8">
+      <div className="container mx-auto px-4 z-10 py-12 lg:py-16">
+        <div className="max-w-4xl mx-auto text-center space-y-6 lg:space-y-8">
           {/* Logo Animation */}
-          <div className="flex justify-center mb-8">
+          <div className="flex justify-center mb-6 lg:mb-8">
             <AIWalaLogo size="large" />
           </div>
           
           <h1 className={`font-display font-black text-4xl md:text-5xl lg:text-6xl tracking-tight ${isTypingComplete ? 'animate-bounce-in' : ''}`}>
-            <span className="relative inline-block h-24 overflow-hidden" style={{
+            <span className="relative inline-block h-20 lg:h-24 overflow-hidden" style={{
               color: accentColor
             }}>
               <span className="pop">{typedText}</span>
@@ -74,15 +74,15 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             </span>
           </h1>
           
-          {/* Enhanced Dynamic Punjabi Text */}
+          {/* Enhanced Dynamic Punjabi Text with optimized spacing */}
           <motion.div
-            className="relative my-12"
+            className="relative my-8 lg:my-12"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 2 }}
           >
             <motion.h2
-              className="text-3xl md:text-4xl lg:text-5xl font-black mb-4 relative z-10"
+              className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black mb-3 lg:mb-4 relative z-10"
               style={{ 
                 background: `linear-gradient(45deg, ${accentColor}, #ff6b6b, #4ecdc4, ${accentColor})`,
                 backgroundSize: '300% 300%',
@@ -121,7 +121,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             </motion.h2>
             
             <motion.p
-              className="text-lg text-gray-600 italic"
+              className="text-base lg:text-lg text-gray-600 italic"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 2.5 }}
@@ -150,52 +150,52 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                   repeatType: "reverse"
                 }}
               >
-                <Sparkles size={16 + (i % 3) * 4} />
+                <Sparkles size={14 + (i % 3) * 3} />
               </motion.div>
             ))}
           </motion.div>
           
-          <p className="text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto animate-fade-in-up">
+          <p className="text-lg md:text-xl lg:text-2xl text-gray-600 max-w-2xl mx-auto animate-fade-in-up">
             Your zero-human, fully automated AI digital agency that delivers branding, web, social, and video—all through one rickshaw bot.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up" style={{
+          <div className="flex flex-col sm:flex-row gap-3 lg:gap-4 justify-center animate-fade-in-up pt-4 lg:pt-6" style={{
             animationDelay: '500ms'
           }}>
-            <button className="btn-aiwala text-lg px-8 py-4" style={{
+            <button className="btn-aiwala text-lg px-6 lg:px-8 py-3 lg:py-4" style={{
               backgroundColor: accentColor
             }} onClick={onOpenQuestionnaire}>
               Get Your Quote
             </button>
             
             <button 
-              className="px-8 py-4 bg-white text-lg border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors font-medium shadow-sm"
+              className="px-6 lg:px-8 py-3 lg:py-4 bg-white text-lg border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors font-medium shadow-sm"
               onClick={handleOpenOrbit}
             >
               See How it Works
             </button>
           </div>
           
-          <div className="pt-8 flex flex-wrap justify-center gap-8 text-gray-500 animate-fade-in-up" style={{
+          <div className="pt-6 lg:pt-8 flex flex-wrap justify-center gap-6 lg:gap-8 text-gray-500 animate-fade-in-up" style={{
             animationDelay: '800ms'
           }}>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full" style={{
                 backgroundColor: accentColor
               }}></div>
-              <span>100% Automated</span>
+              <span className="text-sm lg:text-base">100% Automated</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full" style={{
                 backgroundColor: accentColor
               }}></div>
-              <span>5-Step Process</span>
+              <span className="text-sm lg:text-base">5-Step Process</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full" style={{
                 backgroundColor: accentColor
               }}></div>
-              <span>Fixed Pricing</span>
+              <span className="text-sm lg:text-base">Fixed Pricing</span>
             </div>
           </div>
         </div>

@@ -2,55 +2,143 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { characters } from '@/lib/characterData';
+import { useColorShift } from '@/hooks/useColorShift';
 
 const CharacterTeam = () => {
+  const accentColor = useColorShift();
+  
   return (
-    <section className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden" aria-labelledby="team-heading">
+    <section className="py-16 lg:py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden" aria-labelledby="team-heading">
       <div className="container mx-auto px-4">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 id="team-heading" className="text-4xl font-bold text-white mb-6">Meet The AI Team</h2>
-            <p className="text-xl text-gray-300">
-              Our warriors work together seamlessly to deliver exceptional digital services—without any human intervention.
-            </p>
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12 lg:mb-16">
+            <motion.h2 
+              id="team-heading" 
+              className="text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-4 lg:mb-6"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              Meet Our <span style={{ color: accentColor }}>AI Super Team</span>
+            </motion.h2>
+            <motion.p 
+              className="text-lg lg:text-xl text-gray-300 max-w-3xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              Our specialized AI warriors work together seamlessly to deliver exceptional digital services—without any human intervention.
+            </motion.p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
             {characters.map((character, index) => (
               <motion.div 
                 key={index}
-                className="bg-gray-800 rounded-xl p-4 text-center"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1, duration: 0.4 }}
+                className="bg-gray-800/80 backdrop-blur-sm rounded-xl p-4 lg:p-6 text-center group hover:bg-gray-700/80 transition-all duration-300"
+                initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ delay: index * 0.1, duration: 0.6 }}
                 viewport={{ once: true, margin: "-50px" }}
-                whileHover={{ scale: 1.03 }}
+                whileHover={{ scale: 1.05, y: -10 }}
               >
-                <div className="relative w-28 h-28 mx-auto mb-4">
-                  <div 
-                    className="absolute inset-0 rounded-full opacity-40"
+                <div className="relative w-24 lg:w-28 h-24 lg:h-28 mx-auto mb-3 lg:mb-4">
+                  {/* Glow effect */}
+                  <motion.div 
+                    className="absolute inset-0 rounded-full opacity-40 group-hover:opacity-60 transition-opacity duration-300"
                     style={{ backgroundColor: character.glowColor }}
+                    animate={{
+                      scale: [1, 1.1, 1],
+                      opacity: [0.4, 0.6, 0.4]
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      repeatType: "reverse"
+                    }}
                     aria-hidden="true"
-                  ></div>
+                  />
                   <img 
                     src={character.imagePath} 
                     alt={character.name} 
-                    className={`w-full h-full object-contain z-10 relative ${character.animationClass}`}
+                    className={`w-full h-full object-contain z-10 relative ${character.animationClass} group-hover:scale-110 transition-transform duration-300`}
                     loading="lazy"
                   />
                 </div>
-                <h3 className="text-lg font-bold mb-1 text-white">
+                <h3 className="text-lg lg:text-xl font-bold mb-1 lg:mb-2 text-white group-hover:text-white transition-colors">
                   {character.name}
                 </h3>
-                <p className="text-sm mb-2" style={{ color: character.glowColor }}>
+                <p className="text-sm lg:text-base mb-2 lg:mb-3 font-medium transition-colors" style={{ color: character.glowColor }}>
                   {character.service}
                 </p>
-                <p className="text-gray-400 text-xs italic">
+                <p className="text-gray-400 text-xs lg:text-sm italic group-hover:text-gray-300 transition-colors">
                   "{character.funnyPhrase}"
                 </p>
+                
+                {/* Hover sparkle effect */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                  {[...Array(4)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="absolute w-1 h-1 bg-yellow-400 rounded-full"
+                      style={{
+                        left: `${20 + (i * 20)}%`,
+                        top: `${30 + (i % 2) * 40}%`,
+                      }}
+                      animate={{
+                        scale: [0, 1, 0],
+                        opacity: [0, 1, 0]
+                      }}
+                      transition={{
+                        duration: 1.5,
+                        delay: i * 0.2,
+                        repeat: Infinity,
+                        repeatType: "reverse"
+                      }}
+                    />
+                  ))}
+                </div>
               </motion.div>
             ))}
           </div>
+          
+          {/* Call to action */}
+          <motion.div
+            className="text-center mt-12 lg:mt-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+          >
+            <p className="text-lg lg:text-xl text-gray-300 mb-6">
+              Ready to see these warriors in action?
+            </p>
+            <motion.button
+              className="px-6 lg:px-8 py-3 lg:py-4 rounded-lg text-lg font-bold transition-all hover:scale-105 relative overflow-hidden"
+              style={{ backgroundColor: accentColor }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <span className="relative z-10">Explore Characters</span>
+              <motion.div
+                className="absolute inset-0 opacity-30"
+                animate={{
+                  background: [
+                    `linear-gradient(45deg, ${accentColor}, transparent)`,
+                    `linear-gradient(45deg, transparent, ${accentColor})`,
+                    `linear-gradient(45deg, ${accentColor}, transparent)`
+                  ]
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  repeatType: "reverse"
+                }}
+              />
+            </motion.button>
+          </motion.div>
         </div>
       </div>
       
