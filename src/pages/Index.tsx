@@ -9,7 +9,7 @@ import RickshawBot from '@/components/RickshawBot';
 // Import refactored section components
 import FeaturedCharacterSection from '@/components/sections/FeaturedCharacterSection';
 import ServicesSection from '@/components/sections/ServicesSection';
-import CharacterTeam from '@/components/sections/CharacterTeam';
+import HowItWorksSection from '@/components/sections/HowItWorksSection';
 import CharacterFeatureSection from '@/components/sections/CharacterFeatureSection';
 import StatsSection from '@/components/sections/StatsSection';
 import CtaSection from '@/components/sections/CtaSection';
@@ -36,40 +36,40 @@ const Index = () => {
       <Header />
       
       <main className="flex-grow">
-        {/* Hero Section with optimized spacing */}
+        {/* Hero Section */}
         <HeroSection onOpenQuestionnaire={handleOpenQuestionnaire} />
         
-        {/* Featured Character with reduced top margin */}
-        <div className="mt-8 lg:mt-12">
+        {/* Featured Character with optimized spacing */}
+        <div className="mt-16 lg:mt-20">
           <FeaturedCharacterSection />
         </div>
         
-        {/* Services Section with optimized spacing */}
-        <div className="mt-12 lg:mt-16">
+        {/* Services Section */}
+        <div className="mt-16 lg:mt-20">
           <ServicesSection />
         </div>
         
-        {/* Meet Our AI Team - Replacing How It Works */}
+        {/* How It Works Section */}
         <div className="mt-16 lg:mt-20">
-          <CharacterTeam />
+          <HowItWorksSection onOpenQuestionnaire={handleOpenQuestionnaire} />
         </div>
         
-        {/* Character Feature Section with optimized spacing */}
-        <div className="mt-12 lg:mt-16">
+        {/* Character Feature Section */}
+        <div className="mt-16 lg:mt-20">
           <CharacterFeatureSection />
         </div>
         
-        {/* Stats Section with reduced spacing */}
-        <div className="mt-12 lg:mt-16">
+        {/* Stats Section */}
+        <div className="mt-16 lg:mt-20">
           <StatsSection />
         </div>
         
-        {/* Embrace Technology Section with optimized spacing */}
-        <div className="mt-12 lg:mt-16">
+        {/* Embrace Technology Section */}
+        <div className="mt-16 lg:mt-20">
           <EmbraceSection onOpenQuestionnaire={handleOpenQuestionnaire} />
         </div>
         
-        {/* CTA Section with final spacing */}
+        {/* CTA Section */}
         <div className="mt-16 lg:mt-20">
           <CtaSection onOpenQuestionnaire={handleOpenQuestionnaire} />
         </div>

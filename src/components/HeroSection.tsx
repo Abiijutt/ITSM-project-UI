@@ -5,6 +5,7 @@ import AIWalaLogo from './AIWalaLogo';
 import ServiceOrbit from './ServiceOrbit';
 import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface HeroSectionProps {
   onOpenQuestionnaire: () => void;
@@ -32,7 +33,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       }
     };
 
-    // Start typing after a brief delay
     const initialDelay = setTimeout(() => {
       typeNextCharacter();
     }, 500);
@@ -65,24 +65,28 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             <AIWalaLogo size="large" />
           </div>
           
-          <h1 className={`font-display font-black text-4xl md:text-5xl lg:text-6xl tracking-tight ${isTypingComplete ? 'animate-bounce-in' : ''}`}>
-            <span className="relative inline-block h-20 lg:h-24 overflow-hidden" style={{
-              color: accentColor
-            }}>
-              <span className="pop">{typedText}</span>
-              <span className={`absolute bottom-0 right-0 h-full w-1 bg-aiwala-accent ${isTypingComplete ? 'opacity-0' : 'animate-pulse'}`}></span>
-            </span>
-          </h1>
+          {/* Fixed text visibility with proper container */}
+          <div className="relative w-full max-w-3xl mx-auto overflow-visible">
+            <h1 className={`font-display font-black text-3xl md:text-4xl lg:text-5xl xl:text-6xl tracking-tight leading-tight ${isTypingComplete ? 'animate-bounce-in' : ''}`}>
+              <span 
+                className="relative inline-block min-h-[4rem] lg:min-h-[5rem] flex items-center justify-center w-full" 
+                style={{ color: accentColor }}
+              >
+                <span className="pop relative z-10">{typedText}</span>
+                <span className={`absolute right-0 h-[80%] w-1 bg-aiwala-accent ${isTypingComplete ? 'opacity-0' : 'animate-pulse'}`}></span>
+              </span>
+            </h1>
+          </div>
           
-          {/* Enhanced Dynamic Punjabi Text with optimized spacing */}
+          {/* Enhanced Dynamic Punjabi Text with better spacing */}
           <motion.div
-            className="relative my-8 lg:my-12"
+            className="relative my-6 lg:my-8 max-w-4xl mx-auto"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 2 }}
           >
             <motion.h2
-              className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black mb-3 lg:mb-4 relative z-10"
+              className="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-black mb-3 lg:mb-4 relative z-10 leading-relaxed"
               style={{ 
                 background: `linear-gradient(45deg, ${accentColor}, #ff6b6b, #4ecdc4, ${accentColor})`,
                 backgroundSize: '300% 300%',
@@ -121,7 +125,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             </motion.h2>
             
             <motion.p
-              className="text-base lg:text-lg text-gray-600 italic"
+              className="text-sm lg:text-base text-gray-600 italic"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 2.5 }}
@@ -133,7 +137,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             {[...Array(6)].map((_, i) => (
               <motion.div
                 key={i}
-                className="absolute text-yellow-400"
+                className="absolute text-yellow-400 pointer-events-none"
                 style={{
                   left: `${10 + (i * 15)}%`,
                   top: `${20 + (i % 3) * 20}%`,
@@ -155,7 +159,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             ))}
           </motion.div>
           
-          <p className="text-lg md:text-xl lg:text-2xl text-gray-600 max-w-2xl mx-auto animate-fade-in-up">
+          <p className="text-base md:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto animate-fade-in-up leading-relaxed">
             Your zero-human, fully automated AI digital agency that delivers branding, web, social, and video—all through one rickshaw bot.
           </p>
           
@@ -168,12 +172,65 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               Get Your Quote
             </button>
             
-            <button 
-              className="px-6 lg:px-8 py-3 lg:py-4 bg-white text-lg border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors font-medium shadow-sm"
-              onClick={handleOpenOrbit}
+            {/* Infinity Gauntlet Button */}
+            <Link 
+              to="/characters"
+              className="group relative px-6 lg:px-8 py-3 lg:py-4 bg-gradient-to-r from-purple-600 via-blue-600 to-green-600 text-white text-lg rounded-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden"
             >
-              See How it Works
-            </button>
+              <div className="relative z-10 flex items-center justify-center gap-2">
+                <span>See How it Works</span>
+                
+                {/* Infinity Stones */}
+                <div className="flex gap-1">
+                  {[
+                    { color: '#ff6b6b', delay: 0 },    // Power (Red)
+                    { color: '#4ecdc4', delay: 0.2 },  // Time (Green)
+                    { color: '#45b7d1', delay: 0.4 },  // Space (Blue)
+                    { color: '#feca57', delay: 0.6 },  // Mind (Yellow)
+                    { color: '#ff9ff3', delay: 0.8 },  // Reality (Pink)
+                    { color: '#96ceb4', delay: 1.0 }   // Soul (Orange/Green)
+                  ].map((stone, i) => (
+                    <motion.div
+                      key={i}
+                      className="w-2 h-2 rounded-full relative"
+                      style={{ backgroundColor: stone.color }}
+                      animate={{
+                        boxShadow: [
+                          `0 0 5px ${stone.color}`,
+                          `0 0 15px ${stone.color}, 0 0 25px ${stone.color}`,
+                          `0 0 5px ${stone.color}`
+                        ],
+                        scale: [1, 1.3, 1]
+                      }}
+                      transition={{
+                        duration: 2,
+                        delay: stone.delay,
+                        repeat: Infinity,
+                        repeatType: "reverse"
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+              
+              {/* Gauntlet glow effect */}
+              <motion.div
+                className="absolute inset-0 opacity-30"
+                animate={{
+                  background: [
+                    'linear-gradient(45deg, #ff6b6b, #4ecdc4)',
+                    'linear-gradient(45deg, #45b7d1, #feca57)',
+                    'linear-gradient(45deg, #ff9ff3, #96ceb4)',
+                    'linear-gradient(45deg, #ff6b6b, #4ecdc4)'
+                  ]
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  repeatType: "reverse"
+                }}
+              />
+            </Link>
           </div>
           
           <div className="pt-6 lg:pt-8 flex flex-wrap justify-center gap-6 lg:gap-8 text-gray-500 animate-fade-in-up" style={{
