@@ -48,12 +48,12 @@ export function usePerformance() {
 
   const getPageLoadTime = () => {
     if (!metrics.navigationTiming) return 0;
-    return metrics.navigationTiming.loadEventEnd - metrics.navigationTiming.navigationStart;
+    return metrics.navigationTiming.loadEventEnd - metrics.navigationTiming.fetchStart;
   };
 
   const getDOMContentLoadedTime = () => {
     if (!metrics.navigationTiming) return 0;
-    return metrics.navigationTiming.domContentLoadedEventEnd - metrics.navigationTiming.navigationStart;
+    return metrics.navigationTiming.domContentLoadedEventEnd - metrics.navigationTiming.fetchStart;
   };
 
   const getFirstContentfulPaint = () => {
