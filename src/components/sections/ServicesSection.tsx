@@ -2,8 +2,43 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useColorShift } from '@/hooks/useColorShift';
-import { services } from '@/lib/serviceData';
-import ServiceCard from '@/components/ServiceCard';
+import { serviceData } from '@/lib/serviceData';
+
+// Create a simple ServiceCard component for this section
+const ServiceCard = ({ service, index }: { service: any; index: number }) => {
+  const accentColor = useColorShift();
+
+  return (
+    <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100">
+      <div className="flex items-center gap-4 mb-4">
+        <div 
+          className="w-12 h-12 rounded-lg flex items-center justify-center"
+          style={{ backgroundColor: `${service.glowColor}20` }}
+        >
+          <img 
+            src={service.image} 
+            alt={service.title}
+            className="w-8 h-8 object-contain"
+          />
+        </div>
+        <h3 className="text-xl font-bold text-gray-900">{service.title}</h3>
+      </div>
+      
+      <p className="text-gray-600 mb-4">{service.description}</p>
+      
+      <div className="flex flex-wrap gap-2">
+        {service.features.slice(0, 3).map((feature: string, i: number) => (
+          <span 
+            key={i}
+            className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
+          >
+            {feature}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+};
 
 const ServicesSection = () => {
   const accentColor = useColorShift();
@@ -38,7 +73,7 @@ const ServicesSection = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {services.map((service, index) => (
+            {serviceData.map((service, index) => (
               <motion.div
                 key={service.id}
                 initial={{ opacity: 0, y: 30 }}
@@ -50,7 +85,7 @@ const ServicesSection = () => {
                   ease: "easeOut"
                 }}
               >
-                <ServiceCard service={service} />
+                <ServiceCard service={service} index={index} />
               </motion.div>
             ))}
           </div>
