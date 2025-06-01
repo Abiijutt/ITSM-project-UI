@@ -1,6 +1,6 @@
 
 // Web Vitals performance monitoring
-import { onCLS, onFID, onFCP, onLCP, onTTFB } from 'web-vitals';
+import { onCLS, onINP, onFCP, onLCP, onTTFB } from 'web-vitals';
 
 export interface MetricData {
   name: string;
@@ -32,7 +32,7 @@ function sendToAnalytics(metric: MetricData) {
 // Initialize performance monitoring
 export function initPerformanceMonitoring() {
   onCLS(sendToAnalytics);
-  onFID(sendToAnalytics);
+  onINP(sendToAnalytics); // Updated from onFID to onINP
   onFCP(sendToAnalytics);
   onLCP(sendToAnalytics);
   onTTFB(sendToAnalytics);
