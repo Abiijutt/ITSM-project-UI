@@ -9,7 +9,7 @@ const CharacterList = () => {
     const characterElements = document.querySelectorAll('.character-element');
     characterElements.forEach((element, index) => {
       setTimeout(() => {
-        element.classList.add('character-entrance');
+        element.classList.add('animate-in');
       }, index * 200);
     });
   }, []);

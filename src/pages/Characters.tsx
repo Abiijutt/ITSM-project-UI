@@ -1,17 +1,15 @@
 
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Sparkles, Star, Zap } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CharacterHero from '@/components/sections/CharacterHero';
 import CharacterList from '@/components/sections/CharacterList';
 import CharacterTeam from '@/components/sections/CharacterTeam';
 import CharacterCta from '@/components/sections/CharacterCta';
-import '../styles/character-animations.css';
-import '../styles/animation-effects.css';
-import { Link } from 'react-router-dom';
 import { useColorShift } from '@/hooks/useColorShift';
-import { motion } from 'framer-motion';
-import { Sparkles, Star, Zap } from 'lucide-react';
 
 const Characters = () => {
   const accentColor = useColorShift();
@@ -55,10 +53,9 @@ const Characters = () => {
               {[...Array(3)].map((_, i) => (
                 <motion.div
                   key={i}
-                  className="absolute inset-0 rounded-full border-2"
+                  className="absolute inset-0 rounded-full border-2 border-dashed"
                   style={{ 
-                    borderColor: accentColor,
-                    borderStyle: 'dashed'
+                    borderColor: accentColor
                   }}
                   initial={{ scale: 0, opacity: 0 }}
                   animate={{ 
@@ -180,7 +177,6 @@ const Characters = () => {
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1, delay: showMagicalIntro ? 3.4 : 0.4 }}
-            className="wizard-entrance-container"
           >
             <CharacterList />
           </motion.div>
