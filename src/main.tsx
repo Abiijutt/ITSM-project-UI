@@ -13,7 +13,8 @@ import './styles/background-effects.css';
 import './styles/orbital-animations.css';
 import './styles/tarot-animations.css';
 import './styles/service-animations.css';
-import './styles/animation-effects.css'; // Add the new animation effects
+import './styles/animation-effects.css';
+import './styles/3d-animations.css'; // Add the new 3D animations
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
