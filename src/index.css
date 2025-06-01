@@ -37,6 +37,54 @@
     --radius: 0.5rem;
     
     --aiwala-accent: 268, 95%, 55%; /* Purple accent color */
+
+    /* Design tokens - Colors */
+    --color-primary-50: #f0f9ff;
+    --color-primary-100: #e0f2fe;
+    --color-primary-500: #0ea5e9;
+    --color-primary-600: #0284c7;
+    --color-primary-700: #0369a1;
+    --color-primary-900: #0c4a6e;
+    
+    --color-gray-50: #f9fafb;
+    --color-gray-100: #f3f4f6;
+    --color-gray-200: #e5e7eb;
+    --color-gray-300: #d1d5db;
+    --color-gray-400: #9ca3af;
+    --color-gray-500: #6b7280;
+    --color-gray-600: #4b5563;
+    --color-gray-700: #374151;
+    --color-gray-800: #1f2937;
+    --color-gray-900: #111827;
+    
+    --color-accent-50: #faf5ff;
+    --color-accent-100: #f3e8ff;
+    --color-accent-500: #a855f7;
+    --color-accent-600: #9333ea;
+    --color-accent-700: #7c3aed;
+    --color-accent-900: #581c87;
+    
+    /* Semantic colors */
+    --color-success: #10b981;
+    --color-warning: #f59e0b;
+    --color-error: #ef4444;
+    --color-info: #3b82f6;
+    
+    /* Spacing tokens */
+    --spacing-0: 0;
+    --spacing-1: 0.25rem;
+    --spacing-2: 0.5rem;
+    --spacing-3: 0.75rem;
+    --spacing-4: 1rem;
+    --spacing-5: 1.25rem;
+    --spacing-6: 1.5rem;
+    --spacing-8: 2rem;
+    --spacing-10: 2.5rem;
+    --spacing-12: 3rem;
+    --spacing-16: 4rem;
+    --spacing-20: 5rem;
+    --spacing-24: 6rem;
+    --spacing-32: 8rem;
   }
  
   .dark {
@@ -79,6 +127,28 @@
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+  
+  /* Performance optimizations */
+  * {
+    box-sizing: border-box;
+  }
+  
+  img, video {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Reduce motion for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
 
 /* Global styles for the AIWALA app */
@@ -89,6 +159,10 @@
 @layer base {
   body {
     font-family: 'Inter', sans-serif;
+    /* Enable font optimization */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   
   .font-display {
@@ -96,14 +170,16 @@
   }
 }
 
-/* Animation classes */
+/* Enhanced animation classes with performance optimization */
 .animate-fade-in-up {
   animation: fadeInUp 0.6s ease-out forwards;
   opacity: 0;
+  will-change: transform, opacity;
 }
 
 .animate-bounce-in {
   animation: bounceIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  will-change: transform;
 }
 
 @keyframes fadeInUp {
@@ -134,21 +210,26 @@
   }
 }
 
-/* Custom button styles */
+/* Performance optimized button styles */
 .btn-aiwala {
   @apply rounded-lg font-medium text-white shadow-lg transition-all hover:scale-105 focus:outline-none focus:ring-2 focus:ring-aiwala-accent focus:ring-offset-2;
   background-color: hsl(var(--aiwala-accent));
+  will-change: transform;
+  transform: translateZ(0); /* Force GPU acceleration */
 }
 
-/* Custom card style */
+/* Enhanced card style with better performance */
 .card-aiwala {
   @apply bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition-all duration-300 border border-gray-100 hover:-translate-y-1;
+  will-change: transform, box-shadow;
+  transform: translateZ(0);
 }
 
-/* Robot hover effects */
+/* Optimized robot hover effects */
 .robot-hover {
   @apply transition-transform duration-300;
   transform-origin: bottom center;
+  will-change: transform;
 }
 
 .robot-hover:hover {
@@ -162,24 +243,22 @@
   75% { transform: rotate(5deg); }
 }
 
-/* Typewriter cursor animation */
-.typewriter {
-  @apply relative;
-}
-
 /* Enhanced hover effects for cards */
 .hover-float {
   transition: transform 0.3s ease;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .hover-float:hover {
-  transform: translateY(-8px);
+  transform: translateY(-8px) translateZ(0);
 }
 
-/* Glowing effect for important buttons */
+/* Optimized glowing effect */
 .glow-hover {
   position: relative;
   overflow: hidden;
+  will-change: transform;
 }
 
 .glow-hover:after {
@@ -199,6 +278,7 @@
     rgba(255, 255, 255, 0.5) 92%,
     rgba(255, 255, 255, 0.0) 100%
   );
+  will-change: opacity, transform;
 }
 
 .glow-hover:hover:after {
@@ -208,9 +288,11 @@
   transition: all 0.7s ease;
 }
 
-/* Tech icon pulse effect */
+/* Performance optimized tech icon pulse effect */
 .tech-icon {
   position: relative;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .tech-icon:after {
@@ -222,6 +304,7 @@
   bottom: 0;
   border-radius: 50%;
   z-index: -1;
+  will-change: box-shadow;
 }
 
 .tech-icon:hover:after {
@@ -238,4 +321,42 @@
   100% {
     box-shadow: 0 0 0 0 rgba(var(--aiwala-accent), 0);
   }
+}
+
+/* Utility classes for performance */
+.gpu-accelerated {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.smooth-scroll {
+  scroll-behavior: smooth;
+}
+
+/* Loading skeleton */
+.skeleton {
+  background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Critical CSS inlining optimization */
+.critical-path {
+  display: block;
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Resource loading optimization */
+.defer-images img {
+  content-visibility: auto;
 }
