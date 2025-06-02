@@ -25,7 +25,6 @@ const MagicalPortalIntro: React.FC<MagicalPortalIntroProps> = ({
       onAnimationComplete={onAnimationComplete}
     >
       <div className="relative">
-        {/* Enhanced 3D Central magical portal */}
         <motion.div
           className="w-64 h-64 rounded-full relative portal-3d-effect"
           style={{
@@ -40,7 +39,6 @@ const MagicalPortalIntro: React.FC<MagicalPortalIntroProps> = ({
           }}
           transition={{ duration: 2, ease: "easeInOut" }}
         >
-          {/* Enhanced 3D Portal rings */}
           {[...Array(3)].map((_, i) => (
             <motion.div
               key={i}
@@ -65,7 +63,6 @@ const MagicalPortalIntro: React.FC<MagicalPortalIntroProps> = ({
             />
           ))}
           
-          {/* Enhanced 3D Magical sparkles */}
           {[...Array(12)].map((_, i) => {
             const angle = (i * 30) * Math.PI / 180;
             const radius = 150;
@@ -108,7 +105,6 @@ const MagicalPortalIntro: React.FC<MagicalPortalIntroProps> = ({
           })}
         </motion.div>
         
-        {/* Enhanced 3D Portal text */}
         <motion.div
           className="absolute inset-0 flex items-center justify-center"
           initial={{ opacity: 0, scale: 0.5, rotateX: 0 }}
@@ -156,7 +152,6 @@ const MagicalPortalIntro: React.FC<MagicalPortalIntroProps> = ({
           </div>
         </motion.div>
 
-        {/* Additional 3D floating elements */}
         <div className="absolute -top-20 -left-20 w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full opacity-60 animate-cube3d"></div>
         <div className="absolute -bottom-16 -right-16 w-6 h-6 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full opacity-50 animate-morph3d"></div>
       </div>
