@@ -151,7 +151,7 @@ const CharacterTeam = () => {
                 }}
               />
             </motion.button>
-          </div>
+          </motion.div>
         </div>
       </div>
       
