@@ -91,7 +91,11 @@ const NotFound = () => {
                 <motion.div
                   key={i}
                   className="absolute w-4 h-4 rounded-full opacity-30"
-                  style={{ backgroundColor: accentColor }}
+                  style={{ 
+                    backgroundColor: accentColor,
+                    left: `${20 + i * 10}%`,
+                    top: `${10 + (i % 2) * 20}%`,
+                  }}
                   animate={{
                     x: [0, Math.random() * 100 - 50],
                     y: [0, Math.random() * 100 - 50],
@@ -102,10 +106,6 @@ const NotFound = () => {
                     repeat: Infinity,
                     repeatType: "reverse",
                     delay: i * 0.5
-                  }}
-                  style={{
-                    left: `${20 + i * 10}%`,
-                    top: `${10 + (i % 2) * 20}%`,
                   }}
                 />
               ))}

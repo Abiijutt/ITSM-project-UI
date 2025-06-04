@@ -138,9 +138,8 @@ const Pricing = () => {
                   >
                     <Card 
                       className={`relative bg-gray-800 border-gray-700 text-white h-full ${
-                        plan.is_popular ? 'ring-2' : ''
+                        plan.is_popular ? 'ring-2 ring-purple-500' : ''
                       }`}
-                      style={{ ringColor: plan.is_popular ? accentColor : undefined }}
                     >
                       {plan.is_popular && (
                         <div 
