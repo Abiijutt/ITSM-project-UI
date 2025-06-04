@@ -1,225 +1,367 @@
+
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Mail, Phone, MapPin, Send, Clock, MessageSquare } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useColorShift } from '@/hooks/useColorShift';
-import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { MessageSquare, Mail, Send } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useToast } from '@/hooks/use-toast';
 
 const Contact = () => {
-  const accentColor = useColorShift();
-  const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     subject: '',
-    message: ''
+    message: '',
+    service: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const accentColor = useColorShift();
+  const { toast } = useToast();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     // Simulate form submission
-    setTimeout(() => {
-      toast({
-        title: "Message sent!",
-        description: "We'll get back to you via AI as soon as possible.",
-      });
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
-      });
-      setIsSubmitting(false);
-    }, 1500);
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    toast({
+      title: "Message sent successfully!",
+      description: "We'll get back to you within 24 hours.",
+    });
+
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      subject: '',
+      message: '',
+      service: ''
+    });
+    setIsSubmitting(false);
   };
 
+  const contactInfo = [
+    {
+      icon: Mail,
+      title: "Email Us",
+      info: "hello@aiwala.com",
+      description: "Send us an email anytime"
+    },
+    {
+      icon: Phone,
+      title: "Call Us",
+      info: "+1 (555) 123-4567",
+      description: "Mon-Fri from 8am to 5pm"
+    },
+    {
+      icon: MapPin,
+      title: "Visit Us",
+      info: "123 AI Street, Tech City, TC 12345",
+      description: "Come say hello at our office"
+    },
+    {
+      icon: Clock,
+      title: "Business Hours",
+      info: "Mon-Fri: 8am-6pm",
+      description: "Weekend support available"
+    }
+  ];
+
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
       <Header />
       
-      <main className="flex-grow">
-        <section className="py-16 bg-gradient-to-br from-gray-50 to-white">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h1 className="text-5xl font-bold mb-4">Contact Us</h1>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Have questions or ready to start? Our AI rickshaw-bot is available 24/7.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
-              <div className="order-2 lg:order-1">
-                <div className="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-all animate-fade-in-up">
-                  <h2 className="text-2xl font-bold mb-6">Send Us a Message</h2>
-                  
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="name">Your Name</Label>
-                      <Input 
-                        id="name" 
-                        name="name" 
-                        value={formData.name} 
-                        onChange={handleChange} 
-                        required 
-                        placeholder="John Doe"
-                        className="hover:border-aiwala-accent focus:border-aiwala-accent transition-colors"
-                      />
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email Address</Label>
-                      <Input 
-                        id="email" 
-                        name="email" 
-                        type="email" 
-                        value={formData.email} 
-                        onChange={handleChange} 
-                        required 
-                        placeholder="johndoe@example.com"
-                        className="hover:border-aiwala-accent focus:border-aiwala-accent transition-colors"
-                      />
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="subject">Subject</Label>
-                      <Input 
-                        id="subject" 
-                        name="subject" 
-                        value={formData.subject} 
-                        onChange={handleChange} 
-                        required 
-                        placeholder="Project Inquiry"
-                        className="hover:border-aiwala-accent focus:border-aiwala-accent transition-colors"
-                      />
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="message">Your Message</Label>
-                      <Textarea 
-                        id="message" 
-                        name="message" 
-                        value={formData.message} 
-                        onChange={handleChange} 
-                        required 
-                        placeholder="Tell us about your project or question..."
-                        className="min-h-[120px] hover:border-aiwala-accent focus:border-aiwala-accent transition-colors"
-                      />
-                    </div>
-                    
-                    <Button 
-                      type="submit" 
-                      style={{ backgroundColor: accentColor }} 
-                      className="w-full hover:scale-105 transition-transform"
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting ? (
-                        <span className="flex items-center">
-                          <span className="animate-spin mr-2">⟳</span> Sending...
-                        </span>
-                      ) : (
-                        <span className="flex items-center">
-                          <Send className="mr-2 h-4 w-4" /> Send Message
-                        </span>
-                      )}
-                    </Button>
-                  </form>
-                </div>
-              </div>
-              
-              <div className="order-1 lg:order-2">
-                <div className="space-y-8">
-                  <div className="bg-black text-white rounded-xl p-8 hover:shadow-xl transition-all animate-fade-in-up">
-                    <h3 className="text-2xl font-bold mb-4">Why Contact AI WALA?</h3>
-                    <ul className="space-y-4">
-                      <li className="flex items-start">
-                        <div className="mr-3 mt-1">✓</div>
-                        <p>Get instant quotes for your digital projects</p>
-                      </li>
-                      <li className="flex items-start">
-                        <div className="mr-3 mt-1">✓</div>
-                        <p>Learn more about our AI-powered services</p>
-                      </li>
-                      <li className="flex items-start">
-                        <div className="mr-3 mt-1">✓</div>
-                        <p>Request custom solutions for your unique needs</p>
-                      </li>
-                      <li className="flex items-start">
-                        <div className="mr-3 mt-1">✓</div>
-                        <p>Technical support for existing clients</p>
-                      </li>
-                    </ul>
-                  </div>
-                  
-                  <div className="bg-gradient-to-br from-aiwala-accent to-blue-700 text-white rounded-xl p-8 hover:shadow-xl transition-all animate-fade-in-up" style={{ animationDelay: '100ms' }}>
-                    <h3 className="text-2xl font-bold mb-4">Other Ways to Connect</h3>
-                    <div className="space-y-4">
-                      <div className="flex items-center">
-                        <MessageSquare className="mr-3" />
-                        <div>
-                          <h4 className="font-semibold">Chat with AI</h4>
-                          <p className="text-sm opacity-85">Use our rickshaw-bot chat widget</p>
-                        </div>
+      <main className="pt-20">
+        {/* Hero Section */}
+        <section className="py-20 px-4">
+          <div className="container mx-auto text-center">
+            <motion.h1 
+              className="text-5xl font-bold mb-6"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              Let's Create Something Amazing Together
+            </motion.h1>
+            <motion.p 
+              className="text-xl text-gray-300 max-w-3xl mx-auto mb-12"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              Ready to transform your business with AI? We're here to help you every step of the way. 
+              Get in touch and let's discuss your project.
+            </motion.p>
+          </div>
+        </section>
+
+        {/* Contact Info Cards */}
+        <section className="py-16 px-4">
+          <div className="container mx-auto">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+              {contactInfo.map((item, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  whileHover={{ scale: 1.05 }}
+                  className="group"
+                >
+                  <Card className="bg-gray-800 border-gray-700 text-white h-full hover:bg-gray-700 transition-all duration-300">
+                    <CardHeader className="text-center">
+                      <div 
+                        className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300"
+                        style={{ backgroundColor: `${accentColor}20` }}
+                      >
+                        <item.icon className="w-8 h-8" style={{ color: accentColor }} />
                       </div>
-                      <div className="flex items-center">
-                        <Mail className="mr-3" />
-                        <div>
-                          <h4 className="font-semibold">Email</h4>
-                          <p className="text-sm opacity-85">hello@aiwala.ai</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                      <CardTitle className="text-lg">{item.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-center">
+                      <p className="font-semibold mb-2">{item.info}</p>
+                      <p className="text-gray-400 text-sm">{item.description}</p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
-        
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl font-bold mb-8">Frequently Asked Questions</h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+
+        {/* Contact Form & Map Section */}
+        <section className="py-16 px-4">
+          <div className="container mx-auto">
+            <div className="grid lg:grid-cols-2 gap-12">
+              {/* Contact Form */}
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                <Card className="bg-gray-800 border-gray-700 text-white">
+                  <CardHeader>
+                    <CardTitle className="text-2xl flex items-center gap-2">
+                      <MessageSquare className="w-6 h-6" style={{ color: accentColor }} />
+                      Send us a Message
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Name *</label>
+                          <Input
+                            type="text"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleInputChange}
+                            required
+                            className="bg-gray-700 border-gray-600 text-white"
+                            placeholder="Your full name"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Email *</label>
+                          <Input
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleInputChange}
+                            required
+                            className="bg-gray-700 border-gray-600 text-white"
+                            placeholder="your@email.com"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Phone</label>
+                          <Input
+                            type="tel"
+                            name="phone"
+                            value={formData.phone}
+                            onChange={handleInputChange}
+                            className="bg-gray-700 border-gray-600 text-white"
+                            placeholder="+1 (555) 123-4567"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Service Interested</label>
+                          <select
+                            name="service"
+                            value={formData.service}
+                            onChange={handleInputChange}
+                            className="w-full bg-gray-700 border border-gray-600 text-white rounded-md px-3 py-2"
+                          >
+                            <option value="">Select a service</option>
+                            <option value="ai-development">AI Development</option>
+                            <option value="web-design">Web Design</option>
+                            <option value="mobile-app">Mobile App</option>
+                            <option value="consulting">Consulting</option>
+                            <option value="other">Other</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium mb-2">Subject *</label>
+                        <Input
+                          type="text"
+                          name="subject"
+                          value={formData.subject}
+                          onChange={handleInputChange}
+                          required
+                          className="bg-gray-700 border-gray-600 text-white"
+                          placeholder="What's this about?"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium mb-2">Message *</label>
+                        <Textarea
+                          name="message"
+                          value={formData.message}
+                          onChange={handleInputChange}
+                          required
+                          rows={5}
+                          className="bg-gray-700 border-gray-600 text-white"
+                          placeholder="Tell us about your project..."
+                        />
+                      </div>
+
+                      <Button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 disabled:opacity-50"
+                      >
+                        {isSubmitting ? (
+                          <div className="flex items-center gap-2">
+                            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                            Sending...
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-2">
+                            <Send className="w-4 h-4" />
+                            Send Message
+                          </div>
+                        )}
+                      </Button>
+                    </form>
+                  </CardContent>
+                </Card>
+              </motion.div>
+
+              {/* Map & Additional Info */}
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="space-y-6"
+              >
+                <Card className="bg-gray-800 border-gray-700 text-white">
+                  <CardHeader>
+                    <CardTitle>Our Location</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="aspect-video bg-gray-700 rounded-lg flex items-center justify-center mb-4">
+                      <MapPin className="w-12 h-12 text-gray-400" />
+                    </div>
+                    <p className="text-gray-300 mb-4">
+                      We're located in the heart of Tech City, easily accessible by public transport and with ample parking available.
+                    </p>
+                    <div className="space-y-2 text-sm">
+                      <p><span className="font-semibold">Address:</span> 123 AI Street, Tech City, TC 12345</p>
+                      <p><span className="font-semibold">Nearest Station:</span> Tech Central (5 min walk)</p>
+                      <p><span className="font-semibold">Parking:</span> Free parking available</p>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-gray-800 border-gray-700 text-white">
+                  <CardHeader>
+                    <CardTitle>Why Choose AI WALA?</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-3 text-sm">
+                      <li className="flex items-start gap-2">
+                        <div className="w-2 h-2 rounded-full mt-2" style={{ backgroundColor: accentColor }} />
+                        <span>24/7 support for all our clients</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <div className="w-2 h-2 rounded-full mt-2" style={{ backgroundColor: accentColor }} />
+                        <span>Average response time under 2 hours</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <div className="w-2 h-2 rounded-full mt-2" style={{ backgroundColor: accentColor }} />
+                        <span>100% satisfaction guarantee</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <div className="w-2 h-2 rounded-full mt-2" style={{ backgroundColor: accentColor }} />
+                        <span>Free initial consultation</span>
+                      </li>
+                    </ul>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ Section */}
+        <section className="py-20 px-4 bg-gray-800">
+          <div className="container mx-auto">
+            <h2 className="text-3xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
               {[
                 {
-                  q: "How fast can you deliver projects?",
-                  a: "Most projects are delivered within 48-72 hours, depending on complexity. Our AI works 24/7!"
+                  question: "How quickly can you start my project?",
+                  answer: "We can typically start new projects within 1-2 weeks after the initial consultation and agreement."
                 },
                 {
-                  q: "Do you offer revisions?",
-                  a: "Yes, all projects include up to 3 revisions to ensure you're completely satisfied with the results."
+                  question: "Do you offer ongoing support?",
+                  answer: "Yes! We provide comprehensive ongoing support and maintenance for all our projects."
                 },
                 {
-                  q: "How do payments work?",
-                  a: "We offer transparent, fixed pricing based on the services you select. Payment is securely processed online."
+                  question: "What's included in the free consultation?",
+                  answer: "Our free consultation includes project assessment, timeline estimation, and a detailed proposal."
                 },
                 {
-                  q: "Is there any human involvement?",
-                  a: "Our processes are fully automated using advanced AI. For complex edge cases, there might be minimal human oversight."
+                  question: "Can you work with my existing team?",
+                  answer: "Absolutely! We love collaborating with existing teams and can integrate seamlessly into your workflow."
                 }
               ].map((faq, index) => (
-                <div key={index} className="bg-gray-50 rounded-xl p-6 hover:bg-gray-100 transition-colors animate-fade-in-up" style={{ animationDelay: `${index * 100}ms` }}>
-                  <h3 className="font-bold text-lg mb-2">{faq.q}</h3>
-                  <p className="text-gray-700">{faq.a}</p>
-                </div>
+                <motion.div
+                  key={index}
+                  className="bg-gray-900 rounded-lg p-6"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                >
+                  <h3 className="font-semibold mb-3">{faq.question}</h3>
+                  <p className="text-gray-300">{faq.answer}</p>
+                </motion.div>
               ))}
             </div>
           </div>
         </section>
       </main>
-      
+
       <Footer />
     </div>
   );

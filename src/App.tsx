@@ -5,6 +5,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UserProvider } from "@/contexts/UserContext";
+import { ThemeProvider } from "@/hooks/useTheme";
+import ErrorBoundary from "@/components/ErrorBoundary";
 import Index from "./pages/Index";
 import Characters from "./pages/Characters";
 import Services from "./pages/Services";
@@ -24,39 +26,50 @@ import Blog from "./pages/Blog";
 import BlogDetail from "./pages/BlogDetail";
 import BookAppointment from "./pages/BookAppointment";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      staleTime: 5 * 60 * 1000, // 5 minutes
+    },
+  },
+});
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <UserProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/characters" element={<Characters />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/services/:id" element={<ServiceDetail />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/see-how-it-works" element={<SeeHowItWorks />} />
-            <Route path="/how-it-works" element={<HowItWorks />} />
-            <Route path="/ai-tarot" element={<AiTarot />} />
-            <Route path="/faq" element={<FAQ />} />
-            <Route path="/testimonials" element={<Testimonials />} />
-            <Route path="/pricing" element={<Pricing />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:slug" element={<BlogDetail />} />
-            <Route path="/book-appointment" element={<BookAppointment />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </UserProvider>
-  </QueryClientProvider>
+  <ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <UserProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/characters" element={<Characters />} />
+                <Route path="/services" element={<Services />} />
+                <Route path="/services/:id" element={<ServiceDetail />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/see-how-it-works" element={<SeeHowItWorks />} />
+                <Route path="/how-it-works" element={<HowItWorks />} />
+                <Route path="/ai-tarot" element={<AiTarot />} />
+                <Route path="/faq" element={<FAQ />} />
+                <Route path="/testimonials" element={<Testimonials />} />
+                <Route path="/pricing" element={<Pricing />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/:slug" element={<BlogDetail />} />
+                <Route path="/book-appointment" element={<BookAppointment />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </TooltipProvider>
+        </UserProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
+  </ErrorBoundary>
 );
 
 export default App;
