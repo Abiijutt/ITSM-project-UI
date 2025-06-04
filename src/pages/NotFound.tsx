@@ -1,75 +1,153 @@
 
 import React from 'react';
+import { motion } from 'framer-motion';
+import { Home, ArrowLeft, Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 import { useColorShift } from '@/hooks/useColorShift';
 import { Button } from '@/components/ui/button';
-import { MapPin, Compass } from 'lucide-react';
 
 const NotFound = () => {
   const accentColor = useColorShift();
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-900 to-black p-4 relative overflow-hidden">
-      {/* Background code patterns */}
-      <div className="absolute inset-0 opacity-10 overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full">
-          <pre className="text-xs text-gray-500 opacity-50 leading-tight">
-            {Array(50).fill(0).map((_, i) => (
-              <div key={i} className="whitespace-nowrap">
-                {Array(120).fill(0).map((_, j) => (
-                  <span key={j}>{Math.random() > 0.5 ? '0' : '1'}</span>
-                ))}
-              </div>
-            ))}
-          </pre>
-        </div>
-      </div>
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
+      <Header />
       
-      <div className="z-10 max-w-md w-full text-center">
-        <div className="mb-8 flex justify-center">
-          <img 
-            src="/lovable-uploads/a79d0288-9c52-4d1b-80a7-c0657666e1ad.png" 
-            alt="Rickshaw Bot Lost in the Code" 
-            className="w-64 h-64 object-contain animate-float"
-          />
-        </div>
-        
-        <h1 className="text-4xl font-display font-bold mb-2 text-white">Lost on the Road</h1>
-        <h2 className="text-8xl font-display font-bold mb-6" style={{ color: accentColor }}>404</h2>
-        
-        <p className="text-xl text-gray-300 mb-8">
-          Oops! Our AI Rickshaw Bot took a wrong turn and is now lost in the digital forest. 
-          Let's get you back on the main road.
-        </p>
-        
-        <div className="flex flex-col sm:flex-row justify-center gap-4">
-          <Button asChild className="text-lg px-6 py-6 bg-white text-gray-900 hover:bg-gray-100">
-            <Link to="/">
-              <MapPin className="mr-2" />
-              Re-route me home
-            </Link>
-          </Button>
-          
-          <Button 
-            asChild
-            className="text-lg px-6 py-6 text-white"
-            style={{ backgroundColor: accentColor }}
+      <main className="pt-20 flex items-center justify-center min-h-screen">
+        <div className="container mx-auto px-4 text-center">
+          <motion.div
+            className="max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
           >
-            <Link to="/services">
-              <Compass className="mr-2" />
-              Explore services
-            </Link>
-          </Button>
+            {/* Animated 404 */}
+            <motion.div
+              className="text-9xl font-bold mb-8"
+              style={{ color: accentColor }}
+              animate={{
+                scale: [1, 1.05, 1],
+                opacity: [0.8, 1, 0.8]
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                repeatType: "reverse"
+              }}
+            >
+              404
+            </motion.div>
+
+            <motion.h1 
+              className="text-4xl font-bold mb-6"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              Oops! Page Not Found
+            </motion.h1>
+
+            <motion.p 
+              className="text-xl text-gray-300 mb-8"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              The page you're looking for seems to have vanished into the digital void. 
+              Don't worry, our AI is already working on finding it!
+            </motion.p>
+
+            <motion.div
+              className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+            >
+              <Link to="/">
+                <Button 
+                  size="lg" 
+                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                >
+                  <Home className="w-4 h-4 mr-2" />
+                  Go Home
+                </Button>
+              </Link>
+              <Button 
+                size="lg" 
+                variant="outline"
+                className="border-gray-600 text-white hover:bg-gray-800"
+                onClick={() => window.history.back()}
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Go Back
+              </Button>
+            </motion.div>
+
+            {/* Floating AI Elements */}
+            <div className="relative">
+              {[...Array(6)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-4 h-4 rounded-full opacity-30"
+                  style={{ backgroundColor: accentColor }}
+                  animate={{
+                    x: [0, Math.random() * 100 - 50],
+                    y: [0, Math.random() * 100 - 50],
+                    scale: [1, 1.5, 1],
+                  }}
+                  transition={{
+                    duration: 3 + Math.random() * 2,
+                    repeat: Infinity,
+                    repeatType: "reverse",
+                    delay: i * 0.5
+                  }}
+                  style={{
+                    left: `${20 + i * 10}%`,
+                    top: `${10 + (i % 2) * 20}%`,
+                  }}
+                />
+              ))}
+            </div>
+
+            {/* Suggestions */}
+            <motion.div
+              className="mt-16 text-left bg-gray-800 rounded-lg p-6"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+            >
+              <h3 className="text-lg font-semibold mb-4 flex items-center">
+                <Search className="w-5 h-5 mr-2" style={{ color: accentColor }} />
+                What you might be looking for:
+              </h3>
+              <div className="grid md:grid-cols-2 gap-4">
+                <Link to="/services" className="text-gray-300 hover:text-white transition-colors">
+                  → Our AI Services
+                </Link>
+                <Link to="/characters" className="text-gray-300 hover:text-white transition-colors">
+                  → Meet Our AI Team
+                </Link>
+                <Link to="/pricing" className="text-gray-300 hover:text-white transition-colors">
+                  → Pricing Plans
+                </Link>
+                <Link to="/about" className="text-gray-300 hover:text-white transition-colors">
+                  → About AI WALA
+                </Link>
+                <Link to="/blog" className="text-gray-300 hover:text-white transition-colors">
+                  → Latest Blog Posts
+                </Link>
+                <Link to="/contact" className="text-gray-300 hover:text-white transition-colors">
+                  → Contact Support
+                </Link>
+              </div>
+            </motion.div>
+          </motion.div>
         </div>
-      </div>
-      
-      {/* Digital road sign */}
-      <div className="absolute bottom-8 flex items-center justify-center w-full">
-        <div className="px-6 py-3 bg-gray-800 rounded-lg text-gray-400 flex items-center text-sm">
-          <span className="mr-2 w-3 h-3 rounded-full bg-red-500 animate-pulse"></span>
-          Error: Path not found | Stack trace: 0xF00D_C0DE_404
-        </div>
-      </div>
+      </main>
+
+      <Footer />
     </div>
   );
 };

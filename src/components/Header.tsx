@@ -1,130 +1,124 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useColorShift } from '@/hooks/useColorShift';
-import UserAvatar from './UserAvatar';
 import { Menu, X } from 'lucide-react';
+import AIWalaLogo from './AIWalaLogo';
+import UserAvatar from './UserAvatar';
+import { Button } from './ui/button';
+import { useColorShift } from '@/hooks/useColorShift';
 
-const Header: React.FC = () => {
-  const accentColor = useColorShift();
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
-  
-  useEffect(() => {
-    const handleScroll = () => {
-      const isScrolled = window.scrollY > 20;
-      if (isScrolled !== scrolled) {
-        setScrolled(isScrolled);
-      }
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [scrolled]);
+  const accentColor = useColorShift();
 
-  useEffect(() => {
-    // Close mobile menu when route changes
-    setMobileMenuOpen(false);
-  }, [location.pathname]);
+  const navigation = [
+    { name: 'Home', href: '/' },
+    { name: 'Services', href: '/services' },
+    { name: 'Characters', href: '/characters' },
+    { name: 'Pricing', href: '/pricing' },
+    { name: 'About', href: '/about' },
+    { name: 'Blog', href: '/blog' },
+    { name: 'Contact', href: '/contact' },
+  ];
 
-  const isActive = (path: string) => {
-    if (path === '/' && location.pathname === '/') return true;
-    if (path !== '/' && location.pathname.startsWith(path)) return true;
-    return false;
+  const isActivePath = (path: string) => {
+    if (path === '/') {
+      return location.pathname === '/';
+    }
+    return location.pathname.startsWith(path);
   };
 
   return (
-    <header 
-      className={`sticky top-0 z-40 w-full transition-all duration-300 ${
-        scrolled ? 'bg-white shadow-md py-3' : 'bg-transparent py-6'
-      }`}
-    >
-      <div className="container mx-auto flex items-center justify-between px-4">
-        <div className="flex items-center">
-          <Link to="/" 
-            className="font-display font-extrabold text-2xl tracking-tight hover:scale-105 transition-transform"
-            style={{ color: accentColor }}
-          >
-            AI WALA
+    <header className="fixed top-0 left-0 right-0 z-40 bg-black/90 backdrop-blur-md border-b border-gray-800">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <Link to="/" className="flex items-center">
+            <AIWalaLogo />
           </Link>
-        </div>
-        
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
-          <Link 
-            to="/services" 
-            className={`font-medium transition-colors ${isActive('/services') ? 'text-aiwala-accent' : 'hover:text-aiwala-accent'}`}
-          >
-            Services
-          </Link>
-          <Link 
-            to="/about" 
-            className={`font-medium transition-colors ${isActive('/about') ? 'text-aiwala-accent' : 'hover:text-aiwala-accent'}`}
-          >
-            About
-          </Link>
-          <Link 
-            to="/contact" 
-            className={`font-medium transition-colors ${isActive('/contact') ? 'text-aiwala-accent' : 'hover:text-aiwala-accent'}`}
-          >
-            Contact
-          </Link>
-          <Link 
-            to="/dashboard" 
-            className={`font-medium transition-colors ${isActive('/dashboard') ? 'text-aiwala-accent' : 'hover:text-aiwala-accent'}`}
-          >
-            Dashboard
-          </Link>
-        </nav>
-        
-        <div className="flex items-center gap-4">
-          <UserAvatar />
-          
+
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center space-x-8">
+            {navigation.map((item) => (
+              <Link
+                key={item.name}
+                to={item.href}
+                className={`text-sm font-medium transition-colors hover:text-white ${
+                  isActivePath(item.href) 
+                    ? 'text-white border-b-2' 
+                    : 'text-gray-300'
+                }`}
+                style={{ 
+                  borderColor: isActivePath(item.href) ? accentColor : 'transparent' 
+                }}
+              >
+                {item.name}
+              </Link>
+            ))}
+          </nav>
+
+          {/* CTA Buttons */}
+          <div className="hidden lg:flex items-center space-x-4">
+            <Link to="/book-appointment">
+              <Button 
+                variant="outline" 
+                className="border-gray-600 text-white hover:bg-gray-800"
+              >
+                Book Call
+              </Button>
+            </Link>
+            <Link to="/faq">
+              <Button 
+                variant="ghost" 
+                className="text-gray-300 hover:text-white"
+              >
+                FAQ
+              </Button>
+            </Link>
+            <UserAvatar />
+          </div>
+
           {/* Mobile menu button */}
-          <button 
-            className="md:hidden p-2 rounded-md hover:bg-gray-100 transition-colors"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Menu"
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="lg:hidden p-2 text-gray-300 hover:text-white"
           >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
-      </div>
 
-      {/* Mobile menu */}
-      {mobileMenuOpen && (
-        <nav className="md:hidden bg-white shadow-lg border-t border-gray-100 absolute left-0 right-0 animate-fade-in-up">
-          <div className="container mx-auto px-4 py-3 flex flex-col space-y-3">
-            <Link 
-              to="/services" 
-              className={`py-2 px-3 rounded-md ${isActive('/services') ? 'bg-gray-100 font-medium' : 'hover:bg-gray-50'}`}
-            >
-              Services
-            </Link>
-            <Link 
-              to="/about" 
-              className={`py-2 px-3 rounded-md ${isActive('/about') ? 'bg-gray-100 font-medium' : 'hover:bg-gray-50'}`}
-            >
-              About
-            </Link>
-            <Link 
-              to="/contact" 
-              className={`py-2 px-3 rounded-md ${isActive('/contact') ? 'bg-gray-100 font-medium' : 'hover:bg-gray-50'}`}
-            >
-              Contact
-            </Link>
-            <Link 
-              to="/dashboard" 
-              className={`py-2 px-3 rounded-md ${isActive('/dashboard') ? 'bg-gray-100 font-medium' : 'hover:bg-gray-50'}`}
-            >
-              Dashboard
-            </Link>
+        {/* Mobile Navigation */}
+        {isMenuOpen && (
+          <div className="lg:hidden py-4 border-t border-gray-800">
+            <nav className="flex flex-col space-y-4">
+              {navigation.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`text-sm font-medium transition-colors hover:text-white ${
+                    isActivePath(item.href) ? 'text-white' : 'text-gray-300'
+                  }`}
+                  style={{ color: isActivePath(item.href) ? accentColor : undefined }}
+                >
+                  {item.name}
+                </Link>
+              ))}
+              <div className="pt-4 border-t border-gray-800">
+                <Link to="/book-appointment" onClick={() => setIsMenuOpen(false)}>
+                  <Button 
+                    className="w-full mb-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                  >
+                    Book Consultation
+                  </Button>
+                </Link>
+                <UserAvatar />
+              </div>
+            </nav>
           </div>
-        </nav>
-      )}
+        )}
+      </div>
     </header>
   );
 };
