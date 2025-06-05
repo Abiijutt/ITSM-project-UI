@@ -8,7 +8,7 @@ export interface PerformanceMetrics {
   webVitals: {
     fcp?: number;
     lcp?: number;
-    fid?: number;
+    inp?: number;
     cls?: number;
   };
 }
@@ -17,7 +17,7 @@ export interface PerformanceMetrics {
 export const PERFORMANCE_BUDGETS = {
   FCP: 1800, // First Contentful Paint
   LCP: 2500, // Largest Contentful Paint
-  FID: 100,  // First Input Delay
+  INP: 200,  // Interaction to Next Paint (replaces FID)
   CLS: 0.1,  // Cumulative Layout Shift
   TTI: 3800, // Time to Interactive
   BUNDLE_SIZE: 250000, // 250KB
@@ -28,9 +28,9 @@ export function initPerformanceMonitoring() {
   if (typeof window === 'undefined') return;
 
   // Monitor Core Web Vitals with correct imports
-  import('web-vitals').then(({ onCLS, onFID, onFCP, onLCP, onTTFB }) => {
+  import('web-vitals').then(({ onCLS, onINP, onFCP, onLCP, onTTFB }) => {
     onCLS(onPerfEntry);
-    onFID(onPerfEntry);
+    onINP(onPerfEntry);
     onFCP(onPerfEntry);
     onLCP(onPerfEntry);
     onTTFB(onPerfEntry);
