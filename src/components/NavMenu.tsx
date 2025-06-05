@@ -1,11 +1,17 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { useColorShift } from '@/hooks/useColorShift';
 import { ChevronDown } from 'lucide-react';
 import { serviceData } from '@/lib/serviceData';
 
-const NavMenu = () => {
+interface NavMenuProps {
+  mobile?: boolean;
+  onItemClick?: () => void;
+}
+
+const NavMenu: React.FC<NavMenuProps> = ({ mobile = false, onItemClick }) => {
   const accentColor = useColorShift();
   const [showServiceDropdown, setShowServiceDropdown] = useState(false);
   
@@ -21,6 +27,86 @@ const NavMenu = () => {
   const funLinks = [
     { name: 'AI Tarot', path: '/ai-tarot' },
   ];
+
+  const handleLinkClick = () => {
+    if (onItemClick) {
+      onItemClick();
+    }
+  };
+
+  if (mobile) {
+    return (
+      <div className="space-y-2">
+        {/* Main Links for Mobile */}
+        {mainLinks.map((link) => (
+          <motion.div
+            key={link.path}
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              show: { opacity: 1, y: 0 }
+            }}
+          >
+            {link.hasDropdown ? (
+              <div className="space-y-2">
+                <Link
+                  to={link.path}
+                  className="block px-4 py-3 text-white hover:bg-gray-800 rounded-lg font-medium"
+                  onClick={handleLinkClick}
+                >
+                  {link.name}
+                </Link>
+                {/* Service submenu for mobile */}
+                <div className="ml-4 space-y-1">
+                  {serviceData.map((service) => (
+                    <Link
+                      key={service.id}
+                      to={`/services/${service.id}`}
+                      className="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg text-sm flex items-center gap-2"
+                      onClick={handleLinkClick}
+                    >
+                      <div 
+                        className="w-2 h-2 rounded-full" 
+                        style={{ backgroundColor: service.glowColor }}
+                      ></div>
+                      {service.title}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <Link
+                to={link.path}
+                className="block px-4 py-3 text-white hover:bg-gray-800 rounded-lg font-medium"
+                onClick={handleLinkClick}
+              >
+                {link.name}
+              </Link>
+            )}
+          </motion.div>
+        ))}
+        
+        {/* Fun Links for Mobile */}
+        {funLinks.map((link) => (
+          <motion.div
+            key={link.path}
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              show: { opacity: 1, y: 0 }
+            }}
+          >
+            <Link
+              to={link.path}
+              className="block px-4 py-3 font-medium rounded-lg text-white"
+              style={{ backgroundColor: accentColor }}
+              onClick={handleLinkClick}
+            >
+              {link.name}
+            </Link>
+          </motion.div>
+        ))}
+      </div>
+    );
+  }
   
   return (
     <nav className="hidden md:flex items-center space-x-1">
