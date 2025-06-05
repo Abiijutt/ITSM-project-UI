@@ -27,31 +27,35 @@ export const PERFORMANCE_BUDGETS = {
 export function initPerformanceMonitoring() {
   if (typeof window === 'undefined') return;
 
-  // Monitor Core Web Vitals
-  import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
-    getCLS(onPerfEntry);
-    getFID(onPerfEntry);
-    getFCP(onPerfEntry);
-    getLCP(onPerfEntry);
-    getTTFB(onPerfEntry);
+  // Monitor Core Web Vitals with correct imports
+  import('web-vitals').then(({ onCLS, onFID, onFCP, onLCP, onTTFB }) => {
+    onCLS(onPerfEntry);
+    onFID(onPerfEntry);
+    onFCP(onPerfEntry);
+    onLCP(onPerfEntry);
+    onTTFB(onPerfEntry);
+  }).catch(() => {
+    console.log('Web Vitals not available');
   });
 
   // Monitor resource loading
-  const observer = new PerformanceObserver((list) => {
-    const entries = list.getEntries();
-    entries.forEach((entry) => {
-      if (entry.entryType === 'navigation') {
-        console.log('Navigation timing:', entry);
-      } else if (entry.entryType === 'resource') {
-        // Log slow resources
-        if (entry.duration > 1000) {
-          console.warn('Slow resource:', entry.name, entry.duration);
+  if ('PerformanceObserver' in window) {
+    const observer = new PerformanceObserver((list) => {
+      const entries = list.getEntries();
+      entries.forEach((entry) => {
+        if (entry.entryType === 'navigation') {
+          console.log('Navigation timing:', entry);
+        } else if (entry.entryType === 'resource') {
+          // Log slow resources
+          if (entry.duration > 1000) {
+            console.warn('Slow resource:', entry.name, entry.duration);
+          }
         }
-      }
+      });
     });
-  });
 
-  observer.observe({ entryTypes: ['navigation', 'resource', 'paint'] });
+    observer.observe({ entryTypes: ['navigation', 'resource', 'paint'] });
+  }
 }
 
 function onPerfEntry(metric: any) {
