@@ -6,14 +6,11 @@ import HeroSection from '@/components/HeroSection';
 import QuestionnaireWizard from '@/components/QuestionnaireWizard';
 import RickshawBot from '@/components/RickshawBot';
 
-// Import refactored section components
-import FeaturedCharacterSection from '@/components/sections/FeaturedCharacterSection';
+// Import only the essential sections for a cleaner design
 import ServicesSection from '@/components/sections/ServicesSection';
 import HowItWorksSection from '@/components/sections/HowItWorksSection';
-import CharacterFeatureSection from '@/components/sections/CharacterFeatureSection';
 import StatsSection from '@/components/sections/StatsSection';
 import CtaSection from '@/components/sections/CtaSection';
-import EmbraceSection from '@/components/sections/EmbraceSection';
 
 const Index = () => {
   const [isQuestionnaireOpen, setIsQuestionnaireOpen] = useState(false);
@@ -36,48 +33,33 @@ const Index = () => {
       <Header />
       
       <main className="flex-grow">
-        {/* Hero Section */}
+        {/* Hero Section - Now cleaner and more professional */}
         <HeroSection onOpenQuestionnaire={handleOpenQuestionnaire} />
         
-        {/* Featured Character with optimized spacing */}
-        <div className="mt-16 lg:mt-20">
-          <FeaturedCharacterSection />
-        </div>
-        
-        {/* Services Section */}
-        <div className="mt-16 lg:mt-20">
+        {/* Services Section - Core offering */}
+        <section className="py-20 bg-white">
           <ServicesSection />
-        </div>
+        </section>
         
-        {/* How It Works Section */}
-        <div className="mt-16 lg:mt-20">
+        {/* How It Works Section - Clear process */}
+        <section className="py-20 bg-gray-50">
           <HowItWorksSection onOpenQuestionnaire={handleOpenQuestionnaire} />
-        </div>
+        </section>
         
-        {/* Character Feature Section */}
-        <div className="mt-16 lg:mt-20">
-          <CharacterFeatureSection />
-        </div>
-        
-        {/* Stats Section */}
-        <div className="mt-16 lg:mt-20">
+        {/* Stats Section - Social proof */}
+        <section className="py-20 bg-white">
           <StatsSection />
-        </div>
+        </section>
         
-        {/* Embrace Technology Section */}
-        <div className="mt-16 lg:mt-20">
-          <EmbraceSection onOpenQuestionnaire={handleOpenQuestionnaire} />
-        </div>
-        
-        {/* CTA Section */}
-        <div className="mt-16 lg:mt-20">
+        {/* Final CTA Section */}
+        <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
           <CtaSection onOpenQuestionnaire={handleOpenQuestionnaire} />
-        </div>
+        </section>
       </main>
       
       <Footer />
       
-      {/* Floating Rickshaw Bot */}
+      {/* Floating Rickshaw Bot - Single clean widget */}
       <RickshawBot onOpenQuestionnaire={handleOpenQuestionnaire} />
       
       {/* Questionnaire Modal */}
